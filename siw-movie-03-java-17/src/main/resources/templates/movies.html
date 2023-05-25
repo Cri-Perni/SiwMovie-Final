@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Film</title>
+	<link rel="stylesheet" th:href="@{/css/style2.css}"/>
+</head>
+
+<body>
+	<div th:if="${userDetails}">
+		<div th:if="${not userDetails.authorities.?[authority == 'ADMIN'].isEmpty()}">
+			<div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
+		</div>
+		<div th:if="${not userDetails.authorities.?[authority == 'DEFAULT'].isEmpty()}">
+			<div th:insert="~{/index.html :: headerUser}"> </div>
+		</div>
+	</div>
+	<div th:unless="${userDetails}">
+		<div th:insert="~{/index.html :: headerUser}"> </div>
+	</div>
+
+	<h1>Film</h1>
+	<div th:if="${movies==null || movies.isEmpty()}">Non ci sono film nel sistema</div>
+	<ul>
+		<li th:each="movie : ${movies}">
+			<a th:href="@{'/movie' + '/' + ${movie.id}}" th:text="${movie.title} + ' (' + ${movie.year} + ')'">Up!
+				(2000)</a>
+		</li>
+	</ul>
+</body>
+
+</html>

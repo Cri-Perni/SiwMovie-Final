@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Film</title>
+	<link rel="stylesheet" th:href="@{/css/style2.css}" />
+</head>
+
+<body>
+	<div class="rectangle">
+		<div class="card-rect"></div>
+		<div class="card-rect"></div>
+		<div class="card-rect"></div>
+	</div>
+	<div th:if="${userDetails}">
+		<div th:if="${not userDetails.authorities.?[authority == 'ADMIN'].isEmpty()}">
+			<div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
+		</div>
+		<div th:if="${not userDetails.authorities.?[authority == 'DEFAULT'].isEmpty()}">
+			<div th:insert="~{/index.html :: headerUser}"> </div>
+		</div>
+	</div>
+	<div th:unless="${userDetails}">
+		<div th:insert="~{/index.html :: headerUser}"> </div>
+	</div>
+	<div th:if="${movie}">
+		<div class="movie-title">
+			<h1 th:text="${movie.title} + ' (' + ${movie.year} + ')'">Titlo FILM</h1>
+		</div>
+
+		<div class="wrap">
+
+			<div class="card-img">
+				<img th:src="${movie.urlImage}">
+			</div>
+			<div class="wrap-text">
+				<h2 th:text="${movie.director.name}+' '+${movie.director.surname}">Regista</h2>
+				<div th:each="artist : ${movie.actors}"> 
+					<h3 th:text="${artist.name}+' '+${artist.surname}">Artisti</h3>
+				</div>
+			</div>
+			<div class="review-title">
+				<h2>Most Popular Review</h2>
+			</div>
+			<div class="wrap-reviews">
+				<div th:each="review : ${movie.reviews}" class="review-line">
+					<span th:text="${review.title}">Title Review</span>
+					<span th:text="' '+${review.bodyText}"> BodyText:sjdhkaslhdlkashdkljashd</span>
+					<span th:text="'Voto: '+${review.stars}">Title Review</span>
+				</div>
+			</div>
+			<div class="a-div">
+				<a class="a-btn" th:href="@{'/movieReviews/'+${movie.id}}">
+					<button class="btn-review">
+						<p>AllReview</p>
+						<svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none" class="h-6 w-6"
+							xmlns="http://www.w3.org/2000/svg">
+							<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linejoin="round" stroke-linecap="round"></path>
+						</svg>
+					</button>
+				</a>
+			</div>
+		</div>
+		<div th:if="${userDetails}">
+			<a th:href="@{'/formNewReview' + '/' + ${movie.id}}">xcvxcv</a>
+		</div>
+		
+	</div>
+	<div th:unless="${movie}">Non esiste</div>
+</body>
+
+</html>

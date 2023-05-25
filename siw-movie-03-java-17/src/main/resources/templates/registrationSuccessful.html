@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>SiwMovie - Registrazione conclusa</title>
+	<link rel="stylesheet" th:href="@{/css/style2.css}"/>
+</head>
+
+<body>
+	<div th:if="${userDetails}">
+		<div th:if="${not userDetails.authorities.?[authority == 'ADMIN'].isEmpty()}">
+			<div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
+		</div>
+		<div th:if="${not userDetails.authorities.?[authority == 'DEFAULT'].isEmpty()}">
+			<div th:insert="~{/index.html :: headerUser}"> </div>
+		</div>
+	</div>
+	<div th:unless="${userDetails}">
+		<div th:insert="~{/index.html :: headerUser}"> </div>
+	</div>
+
+	<div>
+		<a href="/"><img src="/images/logo-siw.png" width="50%"/></a>
+	</div>
+	<h1>Congratulazioni ti sei registrato!</h1>
+	<div>
+		<span>Nome: </span>
+		<span th:text="${user.name}"></span>
+	</div>
+	<div>
+		<span>Cognome: </span>
+		<span th:text="${user.surname}"></span>
+	</div>
+	<div>
+		<span>Email: </span>
+		<span th:text="${user.email}"></span>
+	</div>
+</body>
+</html>

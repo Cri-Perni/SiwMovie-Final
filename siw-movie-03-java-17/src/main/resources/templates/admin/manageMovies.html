@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Film</title>
+	<link rel="stylesheet" th:href="@{/css/style2.css}"/>
+</head>
+
+<body>
+
+	<div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
+
+	<h1>Film</h1>
+	<div th:if="${movies.isEmpty()}">Non ci sono film nel sistema</div>
+	<ul>
+		<li th:each="movie : ${movies}">
+			<span th:text="${movie.title} + ' (' + ${movie.year} + ')'">Up! (2000)</span>
+			<a th:href="@{'/admin/formUpdateMovie' + '/' + ${movie.id}}">Aggiorna</a>
+		</li>
+	</ul>
+</body>
+
+</html>

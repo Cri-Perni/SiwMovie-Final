@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Film</title>
+	<link rel="stylesheet" th:href="@{/css/style2.css}"/>
+</head>
+
+<body>
+	<div th:if="${userDetails}">
+		<div th:if="${not userDetails.authorities.?[authority == 'ADMIN'].isEmpty()}">
+			<div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
+		</div>
+		<div th:if="${not userDetails.authorities.?[authority == 'DEFAULT'].isEmpty()}">
+			<div th:insert="~{/index.html :: headerUser}"> </div>
+		</div>
+	</div>
+	<div th:unless="${userDetails}">
+		<div th:insert="~{/index.html :: headerUser}"> </div>
+	</div>
+	<h1>Film che soddisfano i requisiti</h1>
+	<div th:if="${artists.isEmpty()}">Non ci sono film che soddisfano i requisiti</div>
+	<ul th:if="${!artists.isEmpty()}">
+		<li th:each="artist : ${artists}">
+			<a href="artist.html" th:href="@{'/artist' + '/' + ${artist.id}}"
+				th:text="${artist.name} + ' (' + ${artist.surname}+')'">Up! (2000)</a>
+		</li>
+	</ul>
+</body>
+
+</html>

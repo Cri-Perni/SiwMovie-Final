@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		SiwMovie - Homepage
+	</title>
+	<link rel="stylesheet" th:href="@{/css/style2.css}"/>
+</head>
+
+<body>
+
+	<div class="rectangle">
+		<div class="card-rect"></div>
+		<div class="card-rect"></div>
+		<div class="card-rect"></div>
+	</div>
+	<header th:fragment="headerAdmin">
+		<div class="navbar">
+			<div class="navbar-left">
+				<a href="/"><button class="button">
+						<span class="actual-text">&nbsp;SiwMovie&nbsp;</span>
+						<span class="hover-text" aria-hidden="true">&nbsp;SiwMovie&nbsp;</span>
+					</button></a>
+				<a class="nav-a" href="/formSearchMovies">Search Movies</a>
+				<a class="nav-a" href="/formSearchArtists">Search Artist</a>
+				<a class="nav-a" href="/admin/indexMovie">OP Movie</a>
+				<a class="nav-a" href="/admin/indexArtist">OP Artist</a>
+			</div>
+			<div class="navbar-right" th:if="${userDetails}">
+				<span class="nav-a" th:text="${userDetails.username}"></span>
+				<a class="nav-a" href="/logout">Logout</a>
+			</div>
+			<div class="navbar-right" th:unless="${userDetails}">
+				<a class="nav-a" href="/login">Login</a>
+			</div>
+		</div>
+	</header>
+
+
+	<div class="container">
+		<a href="/artist" class="index"><span class="span-text">Artists</span></a>
+		<a href="/movie" class="index"><span class="span-text">Film</span></a>
+		<a href="/reviews" class="index"><span class="span-text">review</span></a>
+	</div>
+
+</body>
+
+</html>

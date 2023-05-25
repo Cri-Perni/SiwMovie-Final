@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Artisti</title>
+	<link rel="stylesheet" th:href="@{/css/style2.css}"/>
+</head>
+
+<body>
+	<div class="rectangle">
+		<div class="card-rect"></div>
+		<div class="card-rect"></div>
+		<div class="card-rect"></div>
+	</div>
+	<div th:if="${userDetails}">
+		<div th:if="${not userDetails.authorities.?[authority == 'ADMIN'].isEmpty()}">
+			<div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
+		</div>
+		<div th:if="${not userDetails.authorities.?[authority == 'DEFAULT'].isEmpty()}">
+			<div th:insert="~{/index.html :: headerUser}"> </div>
+		</div>
+	</div>
+	<div th:unless="${userDetails}">
+		<div th:insert="~{/index.html :: headerUser}"> </div>
+	</div>
+
+	<div class="movie-title">
+		<h1>ALL Artist</h1>
+	</div>
+	<div class="grid">
+		<div th:if="${artists==null || artists.isEmpty()}">Non ci sono artisti nel sistema</div>
+		<div th:each="artist : ${artists}" class="grid-card1">
+			<div class="card-img-container">
+				<h2 th:text="${artist.name} + ' ' + ${artist.surname}" class="card-title">Tim Burton</h2>
+				<img class="grid-card-img" th:src="${artist.urlOfPicture}">
+				
+			</div>
+			<a th:href="@{'/artist' + '/' + ${artist.id}}" class="a-btn"><button class="card-button">More info</button></a>
+		</div>
+
+	</div>
+</body>
+
+</html>

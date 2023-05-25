@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Film</title>
+	<link rel="stylesheet" th:href="@{/css/style2.css}"/>
+</head>
+
+<body>
+	<div th:if="${userDetails}">
+		<div th:if="${not userDetails.authorities.?[authority == 'ADMIN'].isEmpty()}">
+			<div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
+		</div>
+		<div th:if="${not userDetails.authorities.?[authority == 'DEFAULT'].isEmpty()}">
+			<div th:insert="~{/index.html :: headerUser}"> </div>
+		</div>
+	</div>
+	<div th:unless="${userDetails}">
+		<div th:insert="~{/index.html :: headerUser}"> </div>
+	</div>
+
+    <h1>review</h1>
+    <div th:if="${review}">
+        <span th:text="${review.title}">Up!</span>
+        <span th:text="${review.bodyText}">2000</span>
+        <span th:text="${review.stars}"></span>
+    </div>
+	<div>
+	   <a th:href="@{'/movie/'+${review.movie.id}}">Fine Visione</a>
+	</div>
+    <div th:unless="${review}">Non esiste</div>
+  </body>
+</html>

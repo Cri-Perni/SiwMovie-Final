@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Artisti</title>
+	<link rel="stylesheet" th:href="@{/css/style2.css}"/>
+</head>
+
+<body>
+	<div th:if="${userDetails}">
+		<div th:if="${not userDetails.authorities.?[authority == 'ADMIN'].isEmpty()}">
+			<div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
+		</div>
+		<div th:if="${not userDetails.authorities.?[authority == 'DEFAULT'].isEmpty()}">
+			<div th:insert="~{/index.html :: headerUser}"> </div>
+		</div>
+	</div>
+	<div th:unless="${userDetails}">
+		<div th:insert="~{/index.html :: headerUser}"> </div>
+	</div>
+
+	<h1>Reviews</h1>
+	<div th:if="${reviews==null || reviews.isEmpty()}">Non ci sono artisti nel sistema</div>
+	<ul>
+		<li th:each="review : ${reviews}">
+			<a th:href="@{'/review' + '/' + ${review.id}}"
+				th:text="Film +' '+${review.movie.title}+' ()'+${review.title} + ' stars: ' + ${review.stars} + ' Utente: ' + ${review.credentials.username}"></a>
+		</li>
+	</ul>
+</body>
+
+</html>
