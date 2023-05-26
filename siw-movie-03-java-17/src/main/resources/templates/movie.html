@@ -34,7 +34,11 @@
 				<img th:src="${movie.urlImage}">
 			</div>
 			<div class="wrap-text">
-				<h2 th:text="${movie.director.name}+' '+${movie.director.surname}">Regista</h2>
+				<div th:if="${movie.director}">
+                    <!--<a class="a-btn" th:href="@{'/artists' + '/' + ${movie.director.id}}">-->
+                        <h2 th:text="'Regista: '+${movie.director.name} + ' ' + ${movie.director.surname}">Regista</h2>
+                    </a>
+                </div>
 				<div th:each="artist : ${movie.actors}"> 
 					<h3 th:text="${artist.name}+' '+${artist.surname}">Artisti</h3>
 				</div>
