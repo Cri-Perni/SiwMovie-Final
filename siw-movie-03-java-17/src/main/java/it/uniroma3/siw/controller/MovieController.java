@@ -101,7 +101,8 @@ public class MovieController {
 	}
 	
 	@GetMapping("/formSearchMovies")
-	public String formSearchMovies() {
+	public String formSearchMovies(Model model){
+		model.addAttribute("movies", this.movieRepository.findAll());
 		return "formSearchMovies.html";
 	}
 

@@ -3,10 +3,15 @@
 
 <head>
 	<title>Film</title>
-	<link rel="stylesheet" th:href="@{/css/style2.css}"/>
+	<link rel="stylesheet" th:href="@{/css/style2.css}" />
 </head>
 
 <body>
+	<div class="rectangle">
+		<div class="card-rect"></div>
+		<div class="card-rect"></div>
+		<div class="card-rect"></div>
+	</div>
 	<div th:if="${userDetails}">
 		<div th:if="${not userDetails.authorities.?[authority == 'ADMIN'].isEmpty()}">
 			<div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
@@ -19,14 +24,39 @@
 		<div th:insert="~{/index.html :: headerUser}"> </div>
 	</div>
 
-	<h1>Film</h1>
-	<div th:if="${movies==null || movies.isEmpty()}">Non ci sono film nel sistema</div>
-	<ul>
-		<li th:each="movie : ${movies}">
-			<a th:href="@{'/movie' + '/' + ${movie.id}}" th:text="${movie.title} + ' (' + ${movie.year} + ')'">Up!
-				(2000)</a>
-		</li>
-	</ul>
+	<div class="main-movie">
+		<div class="row-movie" th:each="movie : ${movies}">
+
+			<div class="column-movie">
+
+				<img class="column-movie-img" th:src="${movie.urlImage}">
+			</div>
+			<div class="column2-movie">
+				<p>
+					<a class="a-btn-row"th:href="@{'/movie/'+${movie.id}}">
+						<h2 th:text="${movie.title}">Titolo Film</h2>
+					</a>
+				</p>
+				<div th:if="${movie.director}">
+					<p th:text="${movie.director.name}+' '+${movie.director.surname}">Regista</p>
+				</div>
+			</div>
+			<div class="column3-movie">
+				<h3>Reviews</h3>
+				<div class="row-reviews">
+					<div th:each="review : ${movie.reviews}">
+						<p class="reviews-line" th:text="'Titolo:'+${review.title}+'  Recensione:'+${review.bodyText}+' Voto:'+${review.stars}">
+							Recensione
+						</p>
+				</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+
 </body>
 
 </html>

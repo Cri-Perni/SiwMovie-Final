@@ -86,6 +86,13 @@ public class ReviewController {
         return "reviews.html";
     }
 
+    @GetMapping("/admin/deleteReview/{movieId}/{reviewId}")
+    public String deleteReview(@PathVariable("movieId") Long movieId, @PathVariable("reviewId") Long reviewId, Model model){
+        this.reviewRepository.deleteById(reviewId);
+        model.addAttribute("movie", this.movieRepository.findById(movieId).get());
+        return "movie.html";
+    }
+
 
 
     

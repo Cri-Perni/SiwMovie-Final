@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -39,7 +42,9 @@ public class Movie {
 	@ManyToMany
 	private Set<Artist> actors;
 
+
 	@OneToMany(mappedBy="movie")
+	@Cascade(value=CascadeType.ALL)
 	private List<Review> reviews;
 
 	public Long getId() {
