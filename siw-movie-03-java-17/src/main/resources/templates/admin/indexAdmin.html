@@ -5,7 +5,7 @@
 	<title>
 		SiwMovie - Homepage
 	</title>
-	<link rel="stylesheet" th:href="@{/css/style2.css}"/>
+	<link rel="stylesheet" th:href="@{/css/style2.css}" />
 </head>
 
 <body>
@@ -16,17 +16,34 @@
 		<div class="card-rect"></div>
 	</div>
 	<header th:fragment="headerAdmin">
-		<div class="navbar">
+		<nav class="navbar">
 			<div class="navbar-left">
 				<a href="/"><button class="button">
 						<span class="actual-text">&nbsp;SiwMovie&nbsp;</span>
 						<span class="hover-text" aria-hidden="true">&nbsp;SiwMovie&nbsp;</span>
 					</button></a>
-				<a class="nav-a" href="/formSearchMovies">Search Movies</a>
-				<a class="nav-a" href="/formSearchArtists">Search Artist</a>
-				<div class="nav-a">OP Movie</div>
-				<div class="nav-a">OP Artist</div>
+
+				<a class="nav-a" th:href="@{/formSearchMovies}">Search Movies</a>
+				<a class="nav-a" th:href="@{/formSearchArtists}">Search Artist</a>
 			</div>
+			
+			<div class="dropdown">
+				<p>OP Film</p>
+				<div class="dropdown-content">
+					<a th:href="@{/admin/formNewMovie}">New Film</a>
+					<a th:href="@{/formSearchMovies}">Manage Film</a>
+				</div>
+			</div>
+
+			<div class="dropdown">
+                <p>OP Artisti</p>
+                <div class="dropdown-content">
+                    <a th:href="@{/admin/formNewArtist}">New Artist</a>
+                    <a th:href="@{/admin/manageArtists}">Manage Artist</a>
+                </div>
+            </div>
+
+
 			<div class="navbar-right" th:if="${userDetails}">
 				<span class="nav-a" th:text="${userDetails.username}"></span>
 				<a class="nav-a" href="/logout">Logout</a>
@@ -34,7 +51,7 @@
 			<div class="navbar-right" th:unless="${userDetails}">
 				<a class="nav-a" href="/login">Login</a>
 			</div>
-		</div>
+		</nav>
 	</header>
 
 

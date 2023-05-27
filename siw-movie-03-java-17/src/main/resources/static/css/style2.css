@@ -9,7 +9,8 @@ body {
 }
 
 .navbar {
-  overflow: hidden;
+  /*overflow: hidden;*/
+  width: 100%;
   background-color: #212121;
   font-family: Arial;
   display: flex;
@@ -38,7 +39,58 @@ body {
   margin-left: auto;
 }
 
+/*dropdown system*/
+.dropdown {
+  font-size: 16px;
+  color: white;
+  font-family: Arial;
+  border: none;
+  width: 120px;
+  height: 65px;
+  /*posizionamento*/
+  /*margin-right: 80px;*/
+  text-align: center;
+}
 
+.dropdown:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.dropdown p {
+  margin: 24px 26px;
+ 
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content {
+  display: none;
+  position: relative;
+  z-index: 2;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 25px;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  background-color: aliceblue;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+nav {
+  display: flex;
+  justify-content: space-evenly;
+  width: 40%;
+}
 
 .container {
   display: table;
@@ -353,18 +405,18 @@ body {
   opacity: 1;
 }
 
-.card-img-container{
+.card-img-container {
   height: 100%;
   overflow: hidden;
   border-radius: 10px;
- }
+}
 
- .grid-card-img{
+.grid-card-img {
   width: 100%;
   border-radius: 10px;
   object-fit: cover;
   height: 100%;
- }
+}
 
 .grid-card1 {
   margin-bottom: 2%;
@@ -394,9 +446,9 @@ body {
   z-index: 1;
 }
 
-.grid-card1:hover .grid-card-img{
+.grid-card1:hover .grid-card-img {
   filter: blur(8px);
-  
+
 }
 
 .main-movie {
@@ -449,7 +501,7 @@ body {
   overflow: hidden;
 }
 
-.reviews-line{
+.reviews-line {
   padding: 1%;
   display: flex;
   align-items: center;
@@ -458,7 +510,8 @@ body {
   border: 2px solid #c3c6ce;
   color: #bbb;
 }
-.a-btn-row{
+
+.a-btn-row {
   text-decoration: none;
   color: #bbb;
 }
@@ -505,7 +558,7 @@ body {
   stroke: var(--fill);
 }
 
-.rating input:checked ~ label svg {
+.rating input:checked~label svg {
   transition: 0s;
   animation: idle 4s linear infinite, yippee 0.75s backwards;
   fill: var(--fill);

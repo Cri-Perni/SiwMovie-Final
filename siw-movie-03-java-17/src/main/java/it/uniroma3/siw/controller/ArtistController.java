@@ -68,5 +68,10 @@ public class ArtistController {
 		model.addAttribute("artists", this.artistRepository.findByName(name));
 		return "foundArtists.html";
 	}
+	@GetMapping("/admin/manageArtists")
+	public String manageArtists(Model model){
+		model.addAttribute("artists", this.artistRepository.findAll());
+		return "/admin/manageArtists.html";
+	}
 
 }
