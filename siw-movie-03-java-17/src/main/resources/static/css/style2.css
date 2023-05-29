@@ -758,3 +758,57 @@ nav {
   border-color: #ff0055;
   box-shadow: 0 0 5px #bbb;
 }
+
+.add-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  margin-top: 10%;
+}
+
+.card-add {
+  color: #bbb;
+  width: 20%;
+  background-color: #212121;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 0.5%;
+}
+
+.card-body-add {
+  padding: 20px;
+}
+
+.card-title-add {
+  margin-bottom: 20px;
+
+}
+
+.form-group {
+  margin-bottom: 20px;
+  padding: 1%;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.btn-add {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #111;
+  color: #bbb;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 1%;
+  
+}
+
+.btn-add:hover {
+  background-color: #ff0055;
+}
