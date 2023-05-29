@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Film</title>
+    <link rel="stylesheet" th:href="@{/css/style2.css}" />
+</head>
+
+<body style="overflow-y: hidden;">
+    <div class="rectangle">
+        <div class="card-rect"></div>
+        <div class="card-rect"></div>
+        <div class="card-rect"></div>
+    </div>
+    <div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
+
+    <form class="movie-form" th:action="@{/admin/changeMovie/{id}(id=${movie.id})}" th:object="${movie}" method="POST">
+        <div class="card-up">
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p> 
+            </div>
+            <div class="card-body">
+                <h3 class="card-title-up">Modify Movie</h3>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Movie Title" name="title" th:field="${movie.title}" required>
+                    <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
+                </div>
+                <div class="form-group">
+                    <input type="number" class="form-control" placeholder="Movie Year" name="year" th:field="${movie.year}" required>
+                    <span th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Movie URL" name="title" th:field="${movie.urlImage}" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a th:href="'/admin/formUpdateMovie/'+${movie.id}" class="btn btn-secondary">back</a>
+
+            </div>
+        </div>
+    </form>
+
+</body>
+
+</html>

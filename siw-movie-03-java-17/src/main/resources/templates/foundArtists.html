@@ -6,7 +6,14 @@
 	<link rel="stylesheet" th:href="@{/css/style2.css}"/>
 </head>
 
-<body>
+<body style="overflow-x: hidden;">
+
+	<div class="rectangle">
+		<div class="card-rect"></div>
+		<div class="card-rect"></div>
+		<div class="card-rect"></div>
+	</div>
+
 	<div th:if="${userDetails}">
 		<div th:if="${not userDetails.authorities.?[authority == 'ADMIN'].isEmpty()}">
 			<div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
@@ -18,14 +25,29 @@
 	<div th:unless="${userDetails}">
 		<div th:insert="~{/index.html :: headerUser}"> </div>
 	</div>
-	<h1>Film che soddisfano i requisiti</h1>
-	<div th:if="${artists.isEmpty()}">Non ci sono film che soddisfano i requisiti</div>
-	<ul th:if="${!artists.isEmpty()}">
-		<li th:each="artist : ${artists}">
-			<a href="artist.html" th:href="@{'/artist' + '/' + ${artist.id}}"
-				th:text="${artist.name} + ' (' + ${artist.surname}+')'">Up! (2000)</a>
-		</li>
-	</ul>
+	<div>
+		<div class="movie-title">
+			<h1>Search Artists for name</h1>
+		</div>
+	</div>
+	<form class="search-form" th:action="@{/searchArtists}" method="post">
+		<input type="text" class="search-input" placeholder="Search for Name...." th:value="${name}" name="name"
+			required>
+		<button type="submit" class="search-button">Search</button>
+	</form>
+
+	<div class="grid">
+		<div th:if="${artists==null || artists.isEmpty()}">Non ci sono artisti nel sistema</div>
+		<div th:each="artist : ${artists}" class="grid-card1">
+			<div class="card-img-container">
+				<h2 th:text="${artist.name} + ' ' + ${artist.surname}" class="card-title">Tim Burton</h2>
+				<img class="grid-card-img" th:src="${artist.urlOfPicture}">
+				
+			</div>
+			<a th:href="@{'/artist' + '/' + ${artist.id}}" class="a-btn"><button class="card-button">More info</button></a>
+		</div>
+
+	</div>
 </body>
 
 </html>

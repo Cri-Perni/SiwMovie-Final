@@ -3,32 +3,47 @@
 
 <head>
 	<title>Scelta attori</title>
-	<link rel="stylesheet" th:href="@{/css/style2.css}"/>
+	<link rel="stylesheet" th:href="@{/css/style2.css}" />
 </head>
 
 <body>
 	<div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
 
-	<h1 th:text="'Attori del film ' + ${movie.title}"></h1>
+	<h2 th:text="'Attori del film ' + ${movie.title}"></h2>
 	<div th:if="${movie.actors.isEmpty()}">Non ci sono attori per questo film</div>
-	<ul>
-		<li th:each="actor : ${movie.actors}">
-			<span th:text="${actor.name}+' '+${actor.surname}"></span>
-			<a th:href="@{'/admin/removeActorFromMovie/'+ ${actor.id}+'/'+${movie.id}}">Cancella</a>
-		</li>
-	</ul>
-	<div>
-		Attori che si possono aggiungere:
-		<ul>
-			<li th:each="actor : ${actorsToAdd}">
-				<span th:text="${actor.name}+' '+${actor.surname}"></span>
-				<a th:href="@{'/admin/addActorToMovie/'+ ${actor.id}+'/'+${movie.id}}">Aggiungi</a>
-			</li>
-		</ul>
-	<div>
-	<div>
-		<a th:href="@{'/admin/formUpdateMovie/'+ ${movie.id}}"><button type="button">Fine</button></a>
+	<div class="row-actors">
+		<div th:each="actor : ${movie.actors}" class="grid-card">
+			<div class="card-img-container">
+				<h2 th:text="${actor.name} + ' ' + ${actor.surname}" class="card-title">Tim Burton</h2>
+				<img class="grid-card-img" th:src="${actor.urlOfPicture}">
+
+			</div>
+			<a th:href="@{'/admin/removeActorFromMovie/'+ ${actor.id}+'/'+${movie.id}}" class="a-btn">
+				<button class="card-button">
+					Remove
+				</button></a>
+		</div>
 	</div>
+	<div>
+		<h2>Attori che si possono aggiungere:</h2>
+		<div class="row-actors">
+		<div th:each="actor : ${actorsToAdd}" class="grid-card">
+			<div class="card-img-container">
+				<h2 th:text="${actor.name} + ' ' + ${actor.surname}" class="card-title">Tim Burton</h2>
+				<img class="grid-card-img" th:src="${actor.urlOfPicture}">
+
+			</div>
+			<a th:href="@{'/admin/addActorToMovie/'+ ${actor.id}+'/'+${movie.id}}" class="a-btn">
+				<button class="card-button">
+					Add
+				</button>
+			</a>
+		</div>
+	</div>
+		<div>
+			<div style="padding: 1%;">
+				<a th:href="@{'/admin/formUpdateMovie/'+ ${movie.id}}"><button  class="search-button" type="button">Fine</button></a>
+			</div>
 </body>
 
 </html>

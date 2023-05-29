@@ -20,7 +20,7 @@
 	</div>
 
 	<h1>Reviews</h1>
-	<div th:if="${reviews==null || reviews.isEmpty()}">Non ci sono artisti nel sistema</div>
+	<div th:if="${reviews==null || reviews.isEmpty()}">Non ci sono reviews nel sistema</div>
 	<ul>
 		<li th:each="review : ${reviews}">
 			<a th:href="@{'/review' + '/' + ${review.id}}"

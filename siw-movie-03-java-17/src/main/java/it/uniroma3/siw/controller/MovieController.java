@@ -19,6 +19,7 @@ import it.uniroma3.siw.model.Artist;
 import it.uniroma3.siw.model.Movie;
 import it.uniroma3.siw.repository.ArtistRepository;
 import it.uniroma3.siw.repository.MovieRepository;
+import it.uniroma3.siw.repository.ReviewRepository;
 import jakarta.validation.Valid;
 
 @Controller
@@ -31,6 +32,9 @@ public class MovieController {
 
 	@Autowired 
 	private MovieValidator movieValidator;
+	
+	@Autowired
+	private ReviewRepository reviewRepository;
 
 	@GetMapping(value="/admin/formNewMovie")
 	public String formNewMovie(Model model) {
@@ -91,6 +95,7 @@ public class MovieController {
 	@GetMapping("/movie/{id}")
 	public String getMovie(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("movie", this.movieRepository.findById(id).get());
+		model.addAttribute("stars",this.reviewRepository.getAverageStarsByMovieId(id));
 		return "movie.html";
 	}
 
@@ -162,4 +167,46 @@ public class MovieController {
 		}
 		return actorsToAdd;
 	}
+
+	@GetMapping("/admin/formChangeMovie/{movieId}")
+	public String formChangeMovie(@PathVariable("movieId") Long id, Model model){
+		model.addAttribute("movie", this.movieRepository.findById(id).get());
+		return "/admin/updateMovie.html";
+	}
+
+	@PostMapping("/admin/changeMovie/{movieId}")
+	public String changeMovie(@PathVariable("movieId") Long id,@ModelAttribute Movie newMovie,  BindingResult bindingResult, Model model){
+
+		Movie movie=this.movieRepository.findById(id).get();
+		
+		this.movieValidator.validate(newMovie, bindingResult);
+		if (!bindingResult.hasErrors()) {
+			movie.setTitle(newMovie.getTitle());
+			movie.setYear(newMovie.getYear());
+			//inserimento immagini
+			this.movieRepository.save(movie); 
+			model.addAttribute("movie", movie);
+			return "/admin/formUpdateMovie.html";
+		} else {
+			model.addAttribute("movie", this.movieRepository.findById(id).get());
+			return "/admin/updateMovie.html"; 
+		}
+
+	}
+
+	@GetMapping("/admin/removeMovie/{movieId}")
+	public String removeMovie(@PathVariable("movieId") Long id,Model model){
+
+		Movie movie = this.movieRepository.findById(id).get();
+
+		for(Artist actor : movie.getActors()){
+			actor.getActorOf().remove(movie);
+		}
+
+		this.movieRepository.delete(movie);
+		
+		model.addAttribute("movies", this.movieRepository.findAll());
+		return "/admin/manageMovies.html";
+	}
+
 }

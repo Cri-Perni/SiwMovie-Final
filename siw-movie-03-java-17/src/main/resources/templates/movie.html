@@ -6,7 +6,7 @@
 	<link rel="stylesheet" th:href="@{/css/style2.css}" />
 </head>
 
-<body>
+<body style="overflow-y: hidden;">
 	<div class="rectangle">
 		<div class="card-rect"></div>
 		<div class="card-rect"></div>
@@ -24,50 +24,78 @@
 		<div th:insert="~{/index.html :: headerUser}"> </div>
 	</div>
 	<div th:if="${movie}">
-		<div class="movie-title">
-			<h1 th:text="${movie.title} + ' (' + ${movie.year} + ')'">Titlo FILM</h1>
-		</div>
 
-		<div class="wrap">
-
-			<div class="card-img">
-				<img th:src="${movie.urlImage}">
+		<div class="main-movie">
+			<div class="row-movie">
+	
+				<div class="column-movie">
+					<img class="column-movie-img" th:src="${movie.urlImage}">
+				</div>
+				<div class="column2-movie">
+					<p>
+					<h1 th:text="${movie.title} + ' (' + ${movie.year} + ')'">Titolo Film</h1>
+					</p>
+					<div th:if="${movie.director}">
+						<!--<a class="a-btn" th:href="@{'/artists' + '/' + ${movie.director.id}}">-->
+						<h3 th:text="'Regista: '+${movie.director.name} + ' ' + ${movie.director.surname}">Regista</h3>
+						</a>
+					</div>
+					<div>
+						<div class="rating" th:if="${stars > 0}">
+							<label for="1" th:each="star : ${#numbers.sequence(1, stars)}">
+								<svg style="fill: #ffc73a; stroke: #ffc73a;stroke-opacity: 0; stroke-dasharray: 0;"
+									viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+									<path
+										d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"
+										pathLength="360"></path>
+								</svg>
+							</label>
+	
+						</div>
+					</div>
+				</div>
+				<div class="column3-movie">
+					<div style="display: flex; gap: 2%;">
+						<h3>Reviews</h3>
+						<h3 th:if="${userDetails}">
+							<a style="text-decoration: none; color: #bbb;" th:href="@{'/formNewReview' + '/' + ${movie.id}}">Add Review</a>
+						</h3></div>
+					<div class="row-reviews">
+						<a class="a-btn-row" href="#">
+							<p th:each="review : ${movie.reviews}" class="reviews-line">
+								<span th:text="${review.title}">Title Review</span>
+								<span th:text="' '+${review.bodyText}"> BodyText:sjdhkaslhdlkashdkljashd</span>
+								<span th:text="'Voto: '+${review.stars}">Title Review</span>
+							</p>
+						</a>
+					</div>
+	
+					<a class="a-btn" th:href="@{'/movieReviews/'+${movie.id}}">
+						<button class="btn-review">
+							<p>AllReview</p>
+							<svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none" class="h-6 w-6"
+								xmlns="http://www.w3.org/2000/svg">
+								<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linejoin="round" stroke-linecap="round"></path>
+							</svg>
+						</button>
+					</a>
+				</div>
+	
 			</div>
-			<div class="wrap-text">
-				<div th:if="${movie.director}">
-                    <!--<a class="a-btn" th:href="@{'/artists' + '/' + ${movie.director.id}}">-->
-                        <h2 th:text="'Regista: '+${movie.director.name} + ' ' + ${movie.director.surname}">Regista</h2>
-                    </a>
-                </div>
-				<div th:each="artist : ${movie.actors}"> 
-					<h3 th:text="${artist.name}+' '+${artist.surname}">Artisti</h3>
+			<h1 style="margin-left: 1%;">Actors</h1>
+			<div class="row-actors">
+				<div th:each="artist : ${movie.actors}" class="grid-card">
+					<div class="card-img-container">
+						<h2 th:text="${artist.name} + ' ' + ${artist.surname}" class="card-title">Tim Burton</h2>
+						<img class="grid-card-img" th:src="${artist.urlOfPicture}">
+	
+					</div>
+					<a th:href="@{'/artist' + '/' + ${artist.id}}" class="a-btn"><button class="card-button">More
+							info</button></a>
 				</div>
 			</div>
-			<div class="review-title">
-				<h2>Most Popular Review</h2>
-			</div>
-			<div class="wrap-reviews">
-				<div th:each="review : ${movie.reviews}" class="review-line">
-					<span th:text="${review.title}">Title Review</span>
-					<span th:text="' '+${review.bodyText}"> BodyText:sjdhkaslhdlkashdkljashd</span>
-					<span th:text="'Voto: '+${review.stars}">Title Review</span>
-				</div>
-			</div>
-			<div class="a-div">
-				<a class="a-btn" th:href="@{'/movieReviews/'+${movie.id}}">
-					<button class="btn-review">
-						<p>AllReview</p>
-						<svg stroke-width="4" stroke="currentColor" viewBox="0 0 24 24" fill="none" class="h-6 w-6"
-							xmlns="http://www.w3.org/2000/svg">
-							<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linejoin="round" stroke-linecap="round"></path>
-						</svg>
-					</button>
-				</a>
-			</div>
 		</div>
-		<div th:if="${userDetails}">
-			<a th:href="@{'/formNewReview' + '/' + ${movie.id}}">xcvxcv</a>
-		</div>
+		
 		
 	</div>
 	<div th:unless="${movie}">Non esiste</div>

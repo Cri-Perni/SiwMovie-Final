@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Film</title>
+    <link rel="stylesheet" th:href="@{/css/style2.css}" />
+</head>
+
+<body style="overflow-y: hidden;">
+    <div class="rectangle">
+        <div class="card-rect"></div>
+        <div class="card-rect"></div>
+        <div class="card-rect"></div>
+    </div>
+    <div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
+
+    <form class="movie-form" th:action="@{/admin/changeArtist/{id}(id=${artist.id})}" th:object="${artist}" method="POST">
+        <div class="card-up">
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p> 
+            </div>
+            <div class="card-body">
+                <h3 class="card-title-up">Modify artist</h3>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="artist name" name="name" th:field="${artist.name}" required>
+                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="artist surname" name="surname" th:field="${artist.surname}" required>
+                    <span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
+                </div>
+                <div class="form-group">
+                    <input type="date" class="form-control" placeholder="artist dateOfBirth" name="dateOfBirth" th:field="${artist.dateOfBirth}" required>
+                    <span th:if="${#fields.hasErrors('urlOfPicture')}" th:errors="*{urlOfPicture}"></span>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="artist URL" name="urlOfPicture" th:field="${artist.urlOfPicture}">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a th:href="@{'/admin/formUpdateArtist' + '/' + ${artist.id}}" class="btn btn-secondary">back</a>
+
+            </div>
+        </div>
+    </form>
+
+</body>
+
+</html>

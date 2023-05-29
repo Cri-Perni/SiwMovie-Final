@@ -1,6 +1,8 @@
 package it.uniroma3.siw.repository;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.Movie;
@@ -10,5 +12,8 @@ public interface ReviewRepository extends CrudRepository<Review,Long>{
 
     public Boolean  existsByCredentialsAndMovie(Credentials credentials,Movie movie);
     public Iterable<Review> findByMovieId(Long id);
+
+    @Query("SELECT AVG(r.stars) FROM Review r WHERE r.movie.id = :movieId")
+    Integer getAverageStarsByMovieId(@Param("movieId") Long movieId);
     
 }

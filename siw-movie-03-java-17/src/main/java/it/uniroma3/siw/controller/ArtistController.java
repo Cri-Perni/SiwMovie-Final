@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.siw.controller.validator.ArtistValidator;
 import it.uniroma3.siw.model.Artist;
+import it.uniroma3.siw.model.Movie;
 import it.uniroma3.siw.repository.ArtistRepository;
 
 @Controller
@@ -60,12 +61,14 @@ public class ArtistController {
 
 	@GetMapping("/formSearchArtists")
 	public String formSearchArtists(Model model){
+		model.addAttribute("artists", this.artistRepository.findAll());
 		return "formSearchArtists.html";
 	}
 	
 	@PostMapping("/searchArtists")
 	public String searchArtists(Model model, @RequestParam String name) {
-		model.addAttribute("artists", this.artistRepository.findByName(name));
+		String UpperName = name.substring(0, 1).toUpperCase() + name.substring(1);
+		model.addAttribute("artists", this.artistRepository.findByName(UpperName));
 		return "foundArtists.html";
 	}
 	@GetMapping("/admin/manageArtists")
@@ -73,5 +76,58 @@ public class ArtistController {
 		model.addAttribute("artists", this.artistRepository.findAll());
 		return "/admin/manageArtists.html";
 	}
+
+	@GetMapping(value="/admin/formUpdateArtist/{id}")
+	public String formUpdateArtist(@PathVariable("id") Long id,Model model) {
+		model.addAttribute("artist", this.artistRepository.findById(id).get());
+		return "/admin/formUpdateArtist.html";
+	}
+
+	@GetMapping("/admin/formChangeArtist/{artistId}")
+	public String formChangeArtist(@PathVariable("artistId") Long id, Model model){
+		model.addAttribute("artist", this.artistRepository.findById(id).get());
+		return "/admin/updateArtist.html";
+	}
+
+	@PostMapping("/admin/changeArtist/{artistId}")
+	public String changeArtist(@PathVariable("artistId") Long id,@ModelAttribute Artist newArtist,  BindingResult bindingResult, Model model){
+
+		Artist artist=this.artistRepository.findById(id).get();
+		
+		this.artistValidator.validate(newArtist, bindingResult);
+		if (!bindingResult.hasErrors()) {
+			artist.setName(newArtist.getName());
+			artist.setSurname(newArtist.getSurname());
+			artist.setDateOfBirth(newArtist.getDateOfBirth());
+			//inserimento immagini
+			this.artistRepository.save(artist); 
+			model.addAttribute("artist", artist);
+			return "/admin/formUpdateArtist.html";
+		} else {
+			model.addAttribute("artist", this.artistRepository.findById(id).get());
+			return "/admin/updateArtist.html"; 
+		}
+
+	}
+
+	@GetMapping("/admin/removeArtist/{artistId}")
+	public String removeMovie(@PathVariable("artistId") Long id,Model model){
+
+		Artist artist = this.artistRepository.findById(id).get();
+
+		for(Movie movie : artist.getDirectorOf()){
+			movie.setDirector(null);
+		}
+
+		for(Movie movie : artist.getActorOf()){
+			movie.getActors().remove(artist);
+		}
+
+		this.artistRepository.delete(artist);
+		
+		model.addAttribute("artists", this.artistRepository.findAll());
+		return "/admin/manageArtists.html";
+	}
+
 
 }

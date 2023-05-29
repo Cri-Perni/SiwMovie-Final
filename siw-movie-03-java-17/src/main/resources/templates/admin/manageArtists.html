@@ -12,17 +12,7 @@
 		<div class="card-rect"></div>
 		<div class="card-rect"></div>
 	</div>
-	<div th:if="${userDetails}">
-		<div th:if="${not userDetails.authorities.?[authority == 'ADMIN'].isEmpty()}">
-			<div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
-		</div>
-		<div th:if="${not userDetails.authorities.?[authority == 'DEFAULT'].isEmpty()}">
-			<div th:insert="~{/index.html :: headerUser}"> </div>
-		</div>
-	</div>
-	<div th:unless="${userDetails}">
-		<div th:insert="~{/index.html :: headerUser}"> </div>
-	</div>
+	<div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
 
 	<div class="movie-title">
 		<h1>ALL Artist</h1>
@@ -35,7 +25,7 @@
 				<img class="grid-card-img" th:src="${artist.urlOfPicture}">
 				
 			</div>
-			<a th:href="@{'/artist' + '/' + ${artist.id}}" class="a-btn"><button class="card-button">Update</button></a>
+			<a th:href="@{'/admin/formUpdateArtist' + '/' + ${artist.id}}" class="a-btn"><button class="card-button">Update</button></a>
 		</div>
 
 	</div>

@@ -17,14 +17,14 @@
 	<div th:if="${movies.isEmpty()}">Non ci sono film nel sistema</div>
 	
 	<div class="grid">
-		<div th:if="${movies==null || movies.isEmpty()}">Non ci sono artisti nel sistema</div>
+		<div th:if="${movies==null || movies.isEmpty()}">Non ci sono Movie nel sistema</div>
 		<div th:each="movie : ${movies}" class="grid-card1">
 			<div class="card-img-container">
-				<h2 th:text="${movie.title}" class="card-title">Tim Burton</h2>
+				<h2 th:text="${movie.title}" class="card-title">Iron Man</h2>
 				<img class="grid-card-img" th:src="${movie.urlImage}">
 				
 			</div>
-			<a th:href="@{'/movie' + '/' + ${movie.id}}" class="a-btn"><button class="card-button">Update</button></a>
+			<a th:href="@{'/admin/formUpdateMovie' + '/' + ${movie.id}}" class="a-btn"><button class="card-button">Update</button></a>
 		</div>
 
 	</div>

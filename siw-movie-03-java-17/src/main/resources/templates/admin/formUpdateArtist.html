@@ -11,17 +11,9 @@
 		<div class="card-rect"></div>
 		<div class="card-rect"></div>
 	</div>
-	<div th:if="${userDetails}">
-		<div th:if="${not userDetails.authorities.?[authority == 'ADMIN'].isEmpty()}">
-			<div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
-		</div>
-		<div th:if="${not userDetails.authorities.?[authority == 'DEFAULT'].isEmpty()}">
-			<div th:insert="~{/index.html :: headerUser}"> </div>
-		</div>
-	</div>
-	<div th:unless="${userDetails}">
-		<div th:insert="~{/index.html :: headerUser}"> </div>
-	</div>
+
+    <div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
+	
 	<div th:if="${artist}">
 
 		<div class="main-movie">
@@ -38,6 +30,10 @@
 						<h3 th:text="'Date Birth: '+${artist.dateOfBirth}">date of birth</h3>
 						</a>
 					</div>
+                    <div>
+                        <a style="text-decoration: none; color: #bbb;" th:href="@{'/admin/formChangeArtist/'+${artist.id}}"><h3>Modify Artists</h3> </a>
+                        <a style="text-decoration: none; color: #bbb;" th:href="@{'/admin/removeArtist/' + ${artist.id}}">Remove Artist</a>
+                    </div>
 				</div>
 			</div>
 			<h1 style="margin-left: 1%;">Movie</h1>
@@ -56,6 +52,5 @@
 		
 		
 	</div>
-	<div th:unless="${movie}">Non esiste</div>
 </body>
 </html>

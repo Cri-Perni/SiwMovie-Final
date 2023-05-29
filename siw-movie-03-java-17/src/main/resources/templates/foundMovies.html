@@ -3,10 +3,17 @@
 
 <head>
 	<title>Film</title>
-	<link rel="stylesheet" th:href="@{/css/style2.css}"/>
+	<link rel="stylesheet" th:href="@{/css/style2.css}" />
 </head>
 
-<body>
+<body style="overflow-x: hidden;">
+
+	<div class="rectangle">
+		<div class="card-rect"></div>
+		<div class="card-rect"></div>
+		<div class="card-rect"></div>
+	</div>
+
 	<div th:if="${userDetails}">
 		<div th:if="${not userDetails.authorities.?[authority == 'ADMIN'].isEmpty()}">
 			<div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
@@ -18,14 +25,30 @@
 	<div th:unless="${userDetails}">
 		<div th:insert="~{/index.html :: headerUser}"> </div>
 	</div>
-	<h1>Film che soddisfano i requisiti</h1>
-	<div th:if="${movies.isEmpty()}">Non ci sono film che soddisfano i requisiti</div>
-	<ul th:if="${!movies.isEmpty()}">
-		<li th:each="movie : ${movies}">
-			<a href="movie.html" th:href="@{'/movie' + '/' + ${movie.id}}"
-				th:text="${movie.title} + ' (' + ${movie.year}+')'">Up! (2000)</a>
-		</li>
-	</ul>
+	<div>
+		<div class="movie-title">
+			<h1>Search Movie for year</h1>
+		</div>
+	</div>
+	<form class="search-form" th:action="@{/searchMovies}" method="post">
+		<input type="number" class="search-input" placeholder="Search for Year...." th:value="${year}" name="year"
+			required>
+		<button type="submit" class="search-button">Search</button>
+	</form>
+
+	<div class="grid">
+		<h2 style="color: #bbb;" th:if="${movies==null || movies.isEmpty()}">There are no Movies for this year</h2>
+		<div th:each="movie : ${movies}" class="grid-card1">
+			<div class="card-img-container">
+				<h2 th:text="${movie.title}" class="card-title">Iron Man</h2>
+				<img class="grid-card-img" th:src="${movie.urlImage}">
+
+			</div>
+			<a th:href="@{'/movie' + '/' + ${movie.id}}" class="a-btn"><button class="card-button">More
+					Info</button></a>
+		</div>
+
+	</div>
 </body>
 
 </html>

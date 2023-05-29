@@ -57,8 +57,8 @@ public class ReviewController {
         review.setCredentials(this.credentialsRepository.findByUsername(userDetails.getUsername()).get());
 		this.reviewValidator.validate(review, bindingResult);
 		if (!bindingResult.hasErrors()) {
+           // this.reviewRepository.save(review);
             movie.getReviews().add(review);
-			this.reviewRepository.save(review);
             this.movieRepository.save(movie); 
 			model.addAttribute("review", review);
 			return "review.html";

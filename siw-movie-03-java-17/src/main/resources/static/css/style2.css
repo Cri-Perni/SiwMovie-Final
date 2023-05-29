@@ -45,7 +45,7 @@ body {
   color: white;
   font-family: Arial;
   border: none;
-  width: 120px;
+  width: 6.3%;
   height: 65px;
   /*posizionamento*/
   /*margin-right: 80px;*/
@@ -59,7 +59,6 @@ body {
 
 .dropdown p {
   margin: 24px 26px;
- 
 }
 
 .dropdown:hover .dropdown-content {
@@ -215,10 +214,12 @@ nav {
 .card-img {
   height: 20%;
   width: 20%;
+  object-fit: fill;
 
 }
 
 .card-img img {
+  object-fit: fill;
   width: 100%;
   height: auto;
   border-radius: 10px;
@@ -525,7 +526,6 @@ nav {
   gap: 0.0rem;
   --stroke: #666;
   --fill: #ffc73a;
-  border: 1px solid red;
 }
 
 .rating input {
@@ -603,4 +603,158 @@ nav {
     transform: scale(1.2);
     fill: var(--fill);
   }
+}
+
+.row-actors {
+  width: 100%;
+  height: 34.5%;
+  background-color: #111;
+  padding: 1%;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.grid-card:hover {
+  border-color: #ff0055;
+  box-shadow: 0 4px 18px 0 rgba(255, 255, 255, 0.445);
+}
+
+.grid-card:hover .card-button {
+  transform: translate(-50%, 50%);
+  opacity: 1;
+}
+
+.grid-card {
+  margin-top: 0.5%;
+  flex: 0 0 auto;
+  display: inline-block;
+  margin-bottom: 2%;
+  width: 190px;
+  height: 254px;
+  border-radius: 10px;
+  position: relative;
+  border: 2px solid #c3c6ce;
+  transition: 0.5s ease-out;
+  overflow: visible;
+  margin-right: 3%;
+
+}
+
+.grid-card:hover .card-title {
+  position: absolute;
+  width: 100%;
+  top: 20%;
+  left: 50%;
+  display: block;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #bbb;
+  background-color: #ff0055;
+}
+
+.movie-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card-up {
+  color: #bbb;
+  width: 20%;
+  background-color: #212121;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-title-up {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #111;
+  color: #bbb;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 1%;
+}
+
+.btn-primary:hover {
+  background-color: #ff0055;
+}
+
+.btn-secondary {
+  display: block;
+  text-decoration: none;
+  width: 100%;
+  padding: 10px;
+  background-color: #111;
+  color: #bbb;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-secondary:hover {
+  background-color: #ff0055;
+}
+
+.search-form {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  padding: 8px;
+  border: 2px solid #111;
+  border-radius: 4px;
+}
+
+.search-button {
+  padding: 8px 16px;
+  background-color: #111;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.search-button:hover {
+  background-color: #ff0055;
+  box-shadow: 0 0 5px #bbb;
+}
+
+.search-input:hover {
+  outline: none;
+  border-color: #ff0055;
+  box-shadow: 0 0 5px #bbb;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #ff0055;
+  box-shadow: 0 0 5px #bbb;
 }
