@@ -41,7 +41,7 @@
 		<div th:each="artist : ${artists}" class="grid-card1">
 			<div class="card-img-container">
 				<h2 th:text="${artist.name} + ' ' + ${artist.surname}" class="card-title">Tim Burton</h2>
-				<img class="grid-card-img" th:src="${artist.urlOfPicture}">
+				<img class="grid-card-img" th:src="@{'data:image;base64,' + ${artist.image}}">
 				
 			</div>
 			<a th:href="@{'/artist' + '/' + ${artist.id}}" class="a-btn"><button class="card-button">More info</button></a>

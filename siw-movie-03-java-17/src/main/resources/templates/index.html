@@ -26,7 +26,7 @@
 				<a class="nav-a" th:href="@{/formSearchArtists}">Search Artists</a>
 			</div>
 				<div class="navbar-right" th:if="${userDetails}">
-					<span class="nav-a" th:text="${userDetails.username}"></span>
+					<a th:href="@{'/userReviews/'+${userDetails.username}}"><span class="nav-a" th:text="${userDetails.username}"></span></a>
 					<a class="nav-a" href="/logout">Logout</a>
 				</div>
 				<div class="navbar-right" th:unless="${userDetails}">

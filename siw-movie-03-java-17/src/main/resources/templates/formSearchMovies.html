@@ -42,7 +42,7 @@
 		<div th:each="movie : ${movies}" class="grid-card1">
 			<div class="card-img-container">
 				<h2 th:text="${movie.title}" class="card-title">Iron Man</h2>
-				<img class="grid-card-img" th:src="${movie.urlImage}">
+				<img class="grid-card-img" th:src="@{'data:image;base64,' + ${movie.image}}">
 
 			</div>
 			<a th:href="@{'/movie' + '/' + ${movie.id}}" class="a-btn"><button class="card-button">More

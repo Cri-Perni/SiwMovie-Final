@@ -1,5 +1,8 @@
 package it.uniroma3.siw.controller;
 
+import java.io.IOException;
+import java.util.Base64;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.controller.validator.ArtistValidator;
 import it.uniroma3.siw.model.Artist;
@@ -35,9 +39,14 @@ public class ArtistController {
 	}
 	
 	@PostMapping("/admin/artist")
-	public String newArtist(@ModelAttribute("artist") Artist artist,BindingResult bindingResult, Model model) {
+	public String newArtist(@ModelAttribute("artist") Artist artist, @RequestParam("image") MultipartFile image, BindingResult bindingResult, Model model) {
+
 		this.artistValidator.validate(artist, bindingResult);
 		if (!bindingResult.hasErrors()) {
+			try {
+                String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
+                artist.setImage(base64Image);
+            } catch (IOException e) {}
 			this.artistRepository.save(artist); 
 			model.addAttribute("artist", artist);
 			return "artist.html";
@@ -67,7 +76,7 @@ public class ArtistController {
 	
 	@PostMapping("/searchArtists")
 	public String searchArtists(Model model, @RequestParam String name) {
-		String UpperName = name.substring(0, 1).toUpperCase() + name.substring(1);
+		String UpperName = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
 		model.addAttribute("artists", this.artistRepository.findByName(UpperName));
 		return "foundArtists.html";
 	}
@@ -90,7 +99,7 @@ public class ArtistController {
 	}
 
 	@PostMapping("/admin/changeArtist/{artistId}")
-	public String changeArtist(@PathVariable("artistId") Long id,@ModelAttribute Artist newArtist,  BindingResult bindingResult, Model model){
+	public String changeArtist(@PathVariable("artistId") Long id,@ModelAttribute Artist newArtist, BindingResult bindingResult, Model model){
 
 		Artist artist=this.artistRepository.findById(id).get();
 		
@@ -100,6 +109,11 @@ public class ArtistController {
 			artist.setSurname(newArtist.getSurname());
 			artist.setDateOfBirth(newArtist.getDateOfBirth());
 			//inserimento immagini
+			/*try {
+                String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
+                artist.setImage(base64Image);
+            } catch (IOException e) {}*/
+			
 			this.artistRepository.save(artist); 
 			model.addAttribute("artist", artist);
 			return "/admin/formUpdateArtist.html";

@@ -28,7 +28,7 @@
 			<div class="row-movie">
 	
 				<div class="column-movie">
-					<img class="column-movie-img" th:src="${artist.urlOfPicture}">
+					<img class="column-movie-img" th:src="@{'data:image;base64,' + ${artist.image}}">
 				</div>
 				<div class="column2-movie">
 					<p>
@@ -38,6 +38,10 @@
 						<h3 th:text="'Date Birth: '+${artist.dateOfBirth}">date of birth</h3>
 						</a>
 					</div>
+					<div th:if="${artist.dateOfDeath}">
+						<h3 th:text="'Date Death: '+${artist.dateOfDeath}">date of death</h3>
+						</a>
+					</div>
 				</div>
 			</div>
 			<h1 style="margin-left: 1%;">Movie</h1>
@@ -45,7 +49,7 @@
 				<div th:each="movie : ${artist.ActorOf}" class="grid-card">
 					<div class="card-img-container">
 						<h2 th:text="${movie.title} " class="card-title">Tim Burton</h2>
-						<img class="grid-card-img" th:src="${movie.urlImage}">
+						<img class="grid-card-img" th:src="@{'data:image;base64,' + ${artist.image}}">
 	
 					</div>
 					<a th:href="@{'/movie' + '/' + ${movie.id}}" class="a-btn"><button class="card-button">More

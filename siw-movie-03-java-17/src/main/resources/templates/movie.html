@@ -29,7 +29,7 @@
 			<div class="row-movie">
 	
 				<div class="column-movie">
-					<img class="column-movie-img" th:src="${movie.urlImage}">
+					<img class="column-movie-img" th:src="@{'data:image;base64,' + ${movie.image}}">
 				</div>
 				<div class="column2-movie">
 					<p>
@@ -63,9 +63,9 @@
 					<div class="row-reviews">
 						<a class="a-btn-row" href="#">
 							<p th:each="review : ${movie.reviews}" class="reviews-line">
-								<span th:text="${review.title}">Title Review</span>
-								<span th:text="' '+${review.bodyText}"> BodyText:sjdhkaslhdlkashdkljashd</span>
-								<span th:text="'Voto: '+${review.stars}">Title Review</span>
+								<span th:text="'Title:'+${review.title}">Title Review</span>
+								<span th:text="'&nbsp;&nbsp;Review:'+${review.bodyText}"> BodyText:Review</span>
+								<span th:text="'&nbsp;&nbsp;Vote:'+${review.stars}">Title Review</span>
 							</p>
 						</a>
 					</div>
@@ -87,7 +87,7 @@
 				<div th:each="artist : ${movie.actors}" class="grid-card">
 					<div class="card-img-container">
 						<h2 th:text="${artist.name} + ' ' + ${artist.surname}" class="card-title">Tim Burton</h2>
-						<img class="grid-card-img" th:src="${artist.urlOfPicture}">
+						<img class="grid-card-img" th:src="@{'data:image;base64,' + ${artist.image}}">
 	
 					</div>
 					<a th:href="@{'/artist' + '/' + ${artist.id}}" class="a-btn"><button class="card-button">More

@@ -29,7 +29,7 @@
 
 			<div class="column-movie">
 
-				<img class="column-movie-img" th:src="${movie.urlImage}">
+				<img class="column-movie-img" th:src="@{'data:image;base64,' + ${movie.image}}">
 			</div>
 			<div class="column2-movie">
 				<p>
@@ -45,7 +45,7 @@
 				<h3>Reviews</h3>
 				<div class="row-reviews">
 					<div th:each="review : ${movie.reviews}">
-						<p class="reviews-line" th:text="'Titolo:'+${review.title}+'  Recensione:'+${review.bodyText}+' Voto:'+${review.stars}">
+						<p class="reviews-line" th:text="'Titolo:'+${review.title}+'&nbsp;&nbsp;Recensione:'+${review.bodyText}+'&nbsp;&nbsp;Voto:'+${review.stars}">
 							Recensione
 						</p>
 				</div>

@@ -3,7 +3,7 @@
 
 <head>
 	<title>Artisti</title>
-	<link rel="stylesheet" th:href="@{/css/style2.css}" />
+	<link rel="stylesheet" th:href="@{/css/style2.css}"/>
 </head>
 
 <body>
@@ -19,23 +19,21 @@
 		<div th:insert="~{/index.html :: headerUser}"> </div>
 	</div>
 
-	<h1 style="color: #bbb; margin-left: 2%;">Reviews</h1>
+	<h1 style="color: #bbb; margin-left: 2%;">My Reviews</h1>
 	<div th:if="${reviews==null || reviews.isEmpty()}">Non ci sono reviews nel sistema</div>
 
 	<div class="grid">
-		<div class="card-rw-all" th:each="review : ${reviews}">
-			<h3 class="card-title-rw" th:text="${review.movie.title}+' ('+${review.movie.year}+')'">Add TitoloMOvie
-				Review</h3>
-			<h4 th:text="'User: '+${review.credentials.username}"></h4>
+	<div class="card-rw-all" th:each="review : ${reviews}">
+		<h3 class="card-title-rw" th:text="${review.movie.title}+' ('+${review.movie.year}+')'">Add TitoloMOvie Review</h3>
+		<h4 th:text="'User: '+${review.credentials.username}"></h4>
 			<div class="form-group-rw">
-				<h4 readonly type="text" class="form-control-rw-all" placeholder="Title" name="title"
-					th:text="'Title: '+${review.title}">
+				<h4 readonly type="text" class="form-control-rw-all" placeholder="Title" name="title" th:text="'Title: '+${review.title}">
 			</div>
 			<div class="form-group-rw">
 				<textarea readonly class="form-control-rw body-text-rw" placeholder="BodyText" name="bodyText"
 					th:text="${review.bodyText}"></textarea>
 			</div>
-			<div>
+			<div style="display: flex;">
 				<div class="rating" th:if="${review.stars}">
 					<label for="1" th:each="star : ${#numbers.sequence(1, review.stars)}">
 						<svg style="fill: #ffc73a; stroke: #ffc73a;stroke-opacity: 0; stroke-dasharray: 0;"
@@ -45,19 +43,13 @@
 								pathLength="360"></path>
 						</svg>
 					</label>
-					<div th:if="${userDetails}">
-						<a th:if="${not userDetails.authorities.?[authority == 'ADMIN'].isEmpty()}"
-							style="position: absolute; margin-left: 15%; text-decoration: none; color: #bbb;"
-							th:href="@{'/admin/deleteReview/'+${review.movie.id}+'/'+${review.id}}">
-							<h4>Delete</h4>
-						</a>
-					</div>
+
 				</div>
-
+                <a style="position: absolute; margin-left: 15%; text-decoration: none; color: #bbb;" th:href="'/formEditReview/'+${review.id}"><h4 >Modify</h4></a>
 			</div>
-		</div>
 	</div>
-
+</div>
+	
 </body>
 
 </html>

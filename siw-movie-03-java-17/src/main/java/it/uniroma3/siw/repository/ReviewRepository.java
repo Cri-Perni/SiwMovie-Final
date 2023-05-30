@@ -1,5 +1,7 @@
 package it.uniroma3.siw.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -14,6 +16,8 @@ public interface ReviewRepository extends CrudRepository<Review,Long>{
     public Iterable<Review> findByMovieId(Long id);
 
     @Query("SELECT AVG(r.stars) FROM Review r WHERE r.movie.id = :movieId")
-    Integer getAverageStarsByMovieId(@Param("movieId") Long movieId);
+    public Integer getAverageStarsByMovieId(@Param("movieId") Long movieId);
+
+    public List<Review> findReviewByCredentialsId(Long id);
     
 }

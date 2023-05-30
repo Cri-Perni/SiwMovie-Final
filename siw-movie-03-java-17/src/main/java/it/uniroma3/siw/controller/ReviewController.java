@@ -2,6 +2,7 @@ package it.uniroma3.siw.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapProperties.Credential;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,12 +15,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import it.uniroma3.siw.controller.validator.ReviewValidator;
+import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.Movie;
 import it.uniroma3.siw.model.Review;
 import it.uniroma3.siw.repository.CredentialsRepository;
 import it.uniroma3.siw.repository.MovieRepository;
 import it.uniroma3.siw.repository.ReviewRepository;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class ReviewController {
@@ -43,7 +47,7 @@ public class ReviewController {
         return "formNewReview.html";
     }
 
-    @PostMapping("/review/{id}")
+    @PostMapping("/addReview/{id}")
 	public String newReview(@Valid @ModelAttribute("review") Review review, BindingResult bindingResult,
     @PathVariable("id") Long mId, Model model) {
 
@@ -92,6 +96,41 @@ public class ReviewController {
         model.addAttribute("movie", this.movieRepository.findById(movieId).get());
         return "movie.html";
     }
+
+    @GetMapping(value="/userReviews/{userName}")
+    public String getUserReviews(@PathVariable("userName") String userName, Model model) {
+        Credentials credentials = this.credentialsRepository.findByUsername(userName).get();
+        model.addAttribute("reviews", this.reviewRepository.findReviewByCredentialsId(credentials.getId()));
+        return "userReviews.html";
+    }
+
+    @GetMapping("/formEditReview/{reviewId}")
+    public String formEditReview(@PathVariable("reviewId") Long id, Model model){
+        model.addAttribute("review", this.reviewRepository.findById(id).get());
+        return "editReview.html";
+    }
+
+    @PostMapping("/editReview/{reviewId}")
+	public String editReview(@PathVariable("reviewId") Long id,@ModelAttribute Review newReview,  BindingResult bindingResult, Model model){
+
+		Review review=this.reviewRepository.findById(id).get();
+		
+		this.reviewValidator.validate(newReview, bindingResult);
+		if (!bindingResult.hasErrors()) {
+			review.setTitle(newReview.getTitle());
+			review.setBodyText(newReview.getBodyText());
+			review.setStars(newReview.getStars());
+			//inserimento immagini
+			this.reviewRepository.save(review); 
+			model.addAttribute("reviews", this.reviewRepository.findReviewByCredentialsId(review.getCredentials().getId()));
+			return "userReviews.html";
+		} else {
+			model.addAttribute("review", this.reviewRepository.findById(id).get());
+			return "editReview.html"; 
+		}
+
+	}
+    
     
 
 

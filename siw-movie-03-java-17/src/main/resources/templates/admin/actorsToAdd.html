@@ -15,7 +15,7 @@
 		<div th:each="actor : ${movie.actors}" class="grid-card">
 			<div class="card-img-container">
 				<h2 th:text="${actor.name} + ' ' + ${actor.surname}" class="card-title">Tim Burton</h2>
-				<img class="grid-card-img" th:src="${actor.urlOfPicture}">
+				<img class="grid-card-img" th:src="@{'data:image;base64,' + ${actor.image}}">
 
 			</div>
 			<a th:href="@{'/admin/removeActorFromMovie/'+ ${actor.id}+'/'+${movie.id}}" class="a-btn">
@@ -30,7 +30,7 @@
 		<div th:each="actor : ${actorsToAdd}" class="grid-card">
 			<div class="card-img-container">
 				<h2 th:text="${actor.name} + ' ' + ${actor.surname}" class="card-title">Tim Burton</h2>
-				<img class="grid-card-img" th:src="${actor.urlOfPicture}">
+				<img class="grid-card-img" th:src="@{'data:image;base64,' + ${actor.image}}">
 
 			</div>
 			<a th:href="@{'/admin/addActorToMovie/'+ ${actor.id}+'/'+${movie.id}}" class="a-btn">

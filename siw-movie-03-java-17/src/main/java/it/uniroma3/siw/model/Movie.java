@@ -7,6 +7,7 @@ import java.util.Set;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,7 +35,8 @@ public class Movie {
     @Max(2023)
 	private Integer year;
     
-	private String urlImage;
+	@Column(length = 100000000)//max 10Mb
+	private String image;
 	
 	@ManyToOne
 	private Artist director;
@@ -70,12 +72,12 @@ public class Movie {
 		this.year = year;
 	}
 	
-	public String getUrlImage() {
-		return urlImage;
+	public String getImage() {
+		return image;
 	}
 
-	public void setUrlImage(String urlImage) {
-		this.urlImage = urlImage;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public Artist getDirector() {

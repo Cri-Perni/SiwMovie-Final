@@ -28,7 +28,7 @@
                         th:field="${movie.year}" required>
                     <span th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
                 </div>
-                    <input type="file" class="form-control" >
+                    <input type="file" class="form-control" th:name="image" accept="/image*">
                     <!--<span th:if="${#fields.hasErrors('file')}" th:errors="*{file}"></span>-->
                 </div>
                 <button type="submit" class="btn btn-add">Submit</button>
