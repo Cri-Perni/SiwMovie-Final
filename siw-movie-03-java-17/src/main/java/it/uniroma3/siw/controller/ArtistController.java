@@ -103,7 +103,6 @@ public class ArtistController {
 	public String changeArtist(@PathVariable("artistId") Long id,@Valid @ModelAttribute Artist newArtist,@RequestParam("imageArtist") MultipartFile image, BindingResult bindingResult, Model model){
 
 		Artist artist=this.artistRepository.findById(id).get();
-		
 		this.artistValidator.validate(newArtist, bindingResult);
 		if (!bindingResult.hasErrors()) {
 			artist.setName(newArtist.getName());
@@ -114,7 +113,7 @@ public class ArtistController {
 			try {
                 String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
                 artist.setImage(base64Image);
-            } catch (IOException e) {}
+            }catch (IOException e) {}
 			
 			this.artistRepository.save(artist); 
 			model.addAttribute("artist", artist);
