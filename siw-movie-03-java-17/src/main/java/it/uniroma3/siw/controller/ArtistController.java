@@ -18,6 +18,7 @@ import it.uniroma3.siw.controller.validator.ArtistValidator;
 import it.uniroma3.siw.model.Artist;
 import it.uniroma3.siw.model.Movie;
 import it.uniroma3.siw.repository.ArtistRepository;
+import jakarta.validation.Valid;
 
 @Controller
 public class ArtistController {
@@ -39,7 +40,7 @@ public class ArtistController {
 	}
 	
 	@PostMapping("/admin/artist")
-	public String newArtist(@ModelAttribute("artist") Artist artist, @RequestParam("image") MultipartFile image, BindingResult bindingResult, Model model) {
+	public String newArtist(@Valid @ModelAttribute("artist") Artist artist,@RequestParam("imageArtist") MultipartFile image,BindingResult bindingResult, Model model) {
 
 		this.artistValidator.validate(artist, bindingResult);
 		if (!bindingResult.hasErrors()) {
@@ -51,7 +52,7 @@ public class ArtistController {
 			model.addAttribute("artist", artist);
 			return "artist.html";
 		} else {
-			model.addAttribute("messaggioErrore", "Questo artista esiste già");
+			//model.addAttribute("messaggioErrore", "Questo artista esiste già");
 			return "admin/formNewArtist.html"; 
 		}
 	}
@@ -99,7 +100,7 @@ public class ArtistController {
 	}
 
 	@PostMapping("/admin/changeArtist/{artistId}")
-	public String changeArtist(@PathVariable("artistId") Long id,@ModelAttribute Artist newArtist, BindingResult bindingResult, Model model){
+	public String changeArtist(@PathVariable("artistId") Long id,@Valid @ModelAttribute Artist newArtist,@RequestParam("imageArtist") MultipartFile image, BindingResult bindingResult, Model model){
 
 		Artist artist=this.artistRepository.findById(id).get();
 		
@@ -108,11 +109,12 @@ public class ArtistController {
 			artist.setName(newArtist.getName());
 			artist.setSurname(newArtist.getSurname());
 			artist.setDateOfBirth(newArtist.getDateOfBirth());
+			artist.setDateOfDeath(newArtist.getDateOfDeath());
 			//inserimento immagini
-			/*try {
+			try {
                 String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
                 artist.setImage(base64Image);
-            } catch (IOException e) {}*/
+            } catch (IOException e) {}
 			
 			this.artistRepository.save(artist); 
 			model.addAttribute("artist", artist);
