@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.model.Movie;
 
-public interface movieService {
+public interface MovieService {
 
     public Movie newMovie(Movie movie, MultipartFile image, BindingResult bindingResult);
 
@@ -22,6 +22,14 @@ public interface movieService {
     public Integer getAverageStars(Long id);
 
     public Iterable<Movie> findAllByYear(int year);
+
+    public void save (Movie movie);
+
+    public Movie removeActor(Long actorId, Long movieId);
+
+    public Movie addActor(Long actorId, Long movieId);
+
+
 
     
     

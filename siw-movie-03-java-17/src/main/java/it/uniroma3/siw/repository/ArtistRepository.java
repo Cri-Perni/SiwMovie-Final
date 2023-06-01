@@ -2,12 +2,14 @@ package it.uniroma3.siw.repository;
 
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import it.uniroma3.siw.model.Artist;
+import it.uniroma3.siw.model.Movie;
 
 public interface ArtistRepository extends CrudRepository<Artist, Long> {
 
@@ -24,6 +26,7 @@ public interface ArtistRepository extends CrudRepository<Artist, Long> {
 	public Iterable<Artist> findActorsNotInMovie(@Param("movieId") Long id);
 
 	public Iterable<Artist> findByName(String name);
+
 
 
 }

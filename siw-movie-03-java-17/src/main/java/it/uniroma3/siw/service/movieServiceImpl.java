@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.controller.validator.MovieValidator;
-import it.uniroma3.siw.interfacce.movieService;
+import it.uniroma3.siw.interfacce.MovieService;
 import it.uniroma3.siw.model.Artist;
 import it.uniroma3.siw.model.Movie;
 import it.uniroma3.siw.repository.ArtistRepository;
@@ -21,7 +22,7 @@ import it.uniroma3.siw.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 
 @Service
-public class movieServiceImpl implements movieService {
+public class movieServiceImpl implements MovieService {
 
     @Autowired
     private MovieRepository movieRepository;
@@ -38,7 +39,7 @@ public class movieServiceImpl implements movieService {
 
     public Movie newMovie(Movie movie, MultipartFile image, BindingResult bindingResult) {
         this.movieValidator.validate(movie, bindingResult);
-        if (bindingResult.hasErrors()) {
+        if (!bindingResult.hasErrors()) {
             try {
                 String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
                 movie.setImage(base64Image);
@@ -120,13 +121,37 @@ public class movieServiceImpl implements movieService {
         return this.movieRepository.findByYear(year);
     }
 
-    private List<Artist> actorsToAdd(Long movieId) {
-		List<Artist> actorsToAdd = new ArrayList<>();
+    @Transactional
+    @Override
+    public void save(Movie movie) {
+        this.movieRepository.save(movie);
+    }
 
-		for (Artist a : artistRepository.findActorsNotInMovie(movieId)) {
-			actorsToAdd.add(a);
-		}
-		return actorsToAdd;
-	}
+    @Transactional
+    @Override
+    public Movie removeActor(Long actorId, Long movieId) {
+        Movie movie = this.movieRepository.findById(movieId).get();
+		Artist actor = this.artistRepository.findById(actorId).get();
+		Set<Artist> actors = movie.getActors();
+		actors.remove(actor);
+		this.movieRepository.save(movie);
+
+        return movie;
+    }
+
+    @Transactional
+    @Override
+    public Movie addActor(Long actorId, Long movieId) {
+
+        Movie movie = this.movieRepository.findById(movieId).get();
+		Artist actor = this.artistRepository.findById(actorId).get();
+		Set<Artist> actors = movie.getActors();
+		actors.add(actor);
+		this.movieRepository.save(movie);
+
+        return movie;
+    }
+
+    
 
 }
