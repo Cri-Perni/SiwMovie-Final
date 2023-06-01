@@ -1,0 +1,54 @@
+#==================================
+# = Datasource
+#==================================
+spring:
+  messages:
+    basename: messages/messages
+    encoding: ISO-8859-1
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 444012582861-cmlf2ke58jh5blqp5tegp0t6licvlpg2.apps.googleusercontent.com
+            client-secret: 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
+            scope: openid,profile,email
+            redirect-uri: http://localhost:8081/login/oauth2/code/google
+
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/siwmovie
+    username: postgres
+    password: password
+
+  thymeleaf:
+    check-template-location: true
+    prefix: classpath:/templates/
+    suffix: .html
+    servlet:
+      content-type: text/html
+    cache: false
+    enabled: true
+    encoding: ISO-8859-1
+#==================================
+# = Web server
+#==================================
+server:
+  port: 8081
+  error:
+    whitelabel:
+      enabled: false
+    include-stacktrace: always
+
+
+

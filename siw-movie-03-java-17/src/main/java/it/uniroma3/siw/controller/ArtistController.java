@@ -104,13 +104,14 @@ public class ArtistController {
 
 		Artist artist=this.artistRepository.findById(id).get();
 		this.artistValidator.validate(newArtist, bindingResult);
-		if (!bindingResult.hasErrors()) {
+		if (!bindingResult.hasFieldErrors()) {
 			artist.setName(newArtist.getName());
 			artist.setSurname(newArtist.getSurname());
 			artist.setDateOfBirth(newArtist.getDateOfBirth());
 			artist.setDateOfDeath(newArtist.getDateOfDeath());
 			//inserimento immagini
 			try {
+				
                 String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
                 artist.setImage(base64Image);
             }catch (IOException e) {}

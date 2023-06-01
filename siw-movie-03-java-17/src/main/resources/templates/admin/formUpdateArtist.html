@@ -30,6 +30,10 @@
 						<h3 th:text="'Date Birth: '+${artist.dateOfBirth}">date of birth</h3>
 						</a>
 					</div>
+                    <div th:if="${artist.dateOfDeath}">
+						<h3 th:text="'Date Death: '+${artist.dateOfDeath}">date of death</h3>
+						</a>
+					</div>
                     <div>
                         <a style="text-decoration: none; color: #bbb;" th:href="@{'/admin/formChangeArtist/'+${artist.id}}"><h3>Modify Artists</h3> </a>
                         <a style="text-decoration: none; color: #bbb;" th:href="@{'/admin/removeArtist/' + ${artist.id}}">Remove Artist</a>

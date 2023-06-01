@@ -63,6 +63,8 @@ import javax.sql.DataSource;
         		// tutti gli utenti autenticati possono accere alle pagine rimanenti 
                 .anyRequest().permitAll()
                 // LOGIN: qui definiamo il login
+                .and().oauth2Login()
+                .loginPage("/login")
                 .and().formLogin()
                 .loginPage("/login")
                 .permitAll()

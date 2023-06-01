@@ -25,11 +25,11 @@
 				<a class="nav-a" href="/formSearchMovies">Search Movies</a>
 				<a class="nav-a" th:href="@{/formSearchArtists}">Search Artists</a>
 			</div>
-				<div class="navbar-right" th:if="${userDetails}">
-					<a th:href="@{'/userReviews/'+${userDetails.username}}"><span class="nav-a" th:text="${userDetails.username}"></span></a>
+				<div class="navbar-right" th:if="${#authorization.expression('isAuthenticated()')}">
+					<a th:href="@{'/userReviews/'+${#authentication.getPrincipal().getUsername()}}"><span class="nav-a" th:text="${#authentication.getPrincipal().getUsername()}"></span></a>
 					<a class="nav-a" href="/logout">Logout</a>
 				</div>
-				<div class="navbar-right" th:unless="${userDetails}">
+				<div class="navbar-right" th:unless="${#authorization.expression('isAuthenticated()')}">
 					<a class="nav-a" href="/login">Login</a>
 				</div>
 		</div>

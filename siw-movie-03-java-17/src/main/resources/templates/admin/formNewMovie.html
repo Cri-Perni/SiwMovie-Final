@@ -11,7 +11,7 @@
 <body>
 	<div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
 	
-	<form class="add-form" th:action="@{/admin/movie}" method="POST" th:object="${movie}">
+	<form class="add-form" th:action="@{/admin/movie}" method="POST" th:object="${movie}" enctype="multipart/form-data">
         <div class="card-add">
           <div th:if="${#fields.hasGlobalErrors()}">
             <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p> 

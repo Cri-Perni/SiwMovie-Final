@@ -83,14 +83,16 @@ public class MovieController {
 	}
 
 	@PostMapping("/admin/movie")
-	public String newMovie(@Valid @ModelAttribute("movie") Movie movie,@RequestParam("imageMovie") MultipartFile image, BindingResult bindingResult, Model model) {
+	public String newMovie(@Valid @ModelAttribute("movie") Movie movie, @RequestParam("imageMovie") MultipartFile image,
+			BindingResult bindingResult, Model model) {
 
 		this.movieValidator.validate(movie, bindingResult);
 		if (!bindingResult.hasErrors()) {
- 			try {
-                String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
-                movie.setImage(base64Image);
-            } catch (IOException e) {}
+			try {
+				String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
+				movie.setImage(base64Image);
+			} catch (IOException e) {
+			}
 			this.movieRepository.save(movie);
 			model.addAttribute("movie", movie);
 			return "movie.html";
@@ -184,19 +186,25 @@ public class MovieController {
 	}
 
 	@PostMapping("/admin/changeMovie/{movieId}")
-	public String changeMovie(@PathVariable("movieId") Long id,@Valid @ModelAttribute Movie newMovie, @RequestParam("imageMovie") MultipartFile image,BindingResult bindingResult, Model model) {
+	public String changeMovie(@PathVariable("movieId") Long id, @Valid @ModelAttribute Movie newMovie,
+			@RequestParam("imageMovie") MultipartFile image, BindingResult bindingResult, Model model) {
 
 		Movie movie = this.movieRepository.findById(id).get();
 
 		this.movieValidator.validate(newMovie, bindingResult);
-		if (!bindingResult.hasErrors()) {
+		if (!bindingResult.hasFieldErrors()) {
 			movie.setTitle(newMovie.getTitle());
 			movie.setYear(newMovie.getYear());
 			// inserimento immagini
 			try {
-                String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
-                movie.setImage(base64Image);
-            } catch (IOException e) {}
+				if (image.getBytes().length != 0) {
+					String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
+					movie.setImage(base64Image);
+				} else {
+					movie.setImage(movie.getImage());
+				}
+			} catch (IOException e) {
+			}
 			this.movieRepository.save(movie);
 			model.addAttribute("movie", movie);
 			return "/admin/formUpdateMovie.html";
