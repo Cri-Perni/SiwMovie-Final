@@ -5,10 +5,10 @@
 	<title>
 		SiwMovie - Login
 	</title>
-	<link rel="stylesheet" th:href="@{/css/style2.css}"/>
+	<link rel="stylesheet" th:href="@{/css/style2.css}" />
 </head>
 
-<body>
+<body style="overflow: hidden;">
 	<div th:if="${userDetails}">
 		<div th:if="${not userDetails.authorities.?[authority == 'ADMIN'].isEmpty()}">
 			<div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
@@ -20,28 +20,43 @@
 	<div th:unless="${userDetails}">
 		<div th:insert="~{/index.html :: headerUser}"> </div>
 	</div>
+<main style="display: flex; justify-content: center; height: 100vh; margin-top: 10%;">
+	<div class="card-lg">
+		<div class="card-img-lg">
+			<div class="img-lg"></div>
+		</div>
+		<div class="form-lg">
 
-	<h1>Login</h1>
-	<form th:action="@{/login}" method="POST">
-			<div>
-				<span>Username:</span>
-				<span><input name="username" type="text" required /></span>
-			</div>
-			<div>
-				<span>Password:</span>
-				<span><input name="password" type="password" required /></span>
-			</div>
-			<div>
-				<span th:if="${param.error != null}">Username o password errati</span>
-			</div>
-			<div>
-				<span><button type="submit">Login</button></span>
-			</div>
-			<a href="/oauth2/authorization/google" class="oauth2-login-button">Accedi con Google</a>
-	</form>
-	<div>
-		<a th:href="@{/register}" th:text="Registrati">Registrati</a>
+			<form class="form-in"  th:action="@{/login}" method="POST" >
+				<div style="margin-left: 4%;">
+					<h2 style="margin-top: 10%; color: white;">Login</h2>
+				</div>
+
+				<div class="form-input-lg">
+					<input class="input-text-lg"  name="username" type="text" placeholder="username">
+				</div>
+				<div class="form-input-lg">
+					<input class="input-text-lg" name="password" type="password" placeholder="Password">
+				</div>
+				<div style="display: flex; justify-content: center; color: white;">
+					<span th:if="${param.error != null}">Username o password errati</span>
+				</div>
+				<div style="display: flex; justify-content: center; margin-top: 10%;">
+					<button class="lg-button" type="submit">Submit</button>
+				</div>
+				<div style="padding: 5%; display: flex; justify-content: center;">
+					<a href="/oauth2/authorization/google" class="oauth2button">Login with Google</a>
+				</div>
+
+				<div style="padding: 5%; display: flex; justify-content: center;">
+					<a th:href="@{/register}" th:text="Registrati">Registrati</a>
+				</div>
+
+			</form>
+		</div>
+
 	</div>
+</main>
 </body>
 
 </html>

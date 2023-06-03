@@ -13,7 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.controller.validator.MovieValidator;
-import it.uniroma3.siw.interfacce.MovieService;
+import it.uniroma3.siw.interFace.MovieService;
 import it.uniroma3.siw.model.Artist;
 import it.uniroma3.siw.model.Movie;
 import it.uniroma3.siw.repository.ArtistRepository;
@@ -22,7 +22,7 @@ import it.uniroma3.siw.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 
 @Service
-public class movieServiceImpl implements MovieService {
+public class MovieServiceImpl implements MovieService {
 
     @Autowired
     private MovieRepository movieRepository;
@@ -37,17 +37,21 @@ public class movieServiceImpl implements MovieService {
 
     @Transactional
 
-    public Movie newMovie(Movie movie, MultipartFile image, BindingResult bindingResult) {
+    public Movie newMovie(Movie movie, MultipartFile image, BindingResult bindingResult) throws IOException {
         this.movieValidator.validate(movie, bindingResult);
         if (!bindingResult.hasErrors()) {
+
             try {
                 String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
                 movie.setImage(base64Image);
             } catch (IOException e) {
             }
+
             this.movieRepository.save(movie);
-        }
-        return movie;
+
+            return movie;
+        } else
+            throw new IOException();
     }
 
     @Transactional
@@ -70,28 +74,30 @@ public class movieServiceImpl implements MovieService {
 
     @Transactional
     @Override
-    public Movie update(Long id, Movie newMovie, MultipartFile image, BindingResult bindingResult) {
-
-        Movie movie = this.movieRepository.findById(id).get();
+    public Movie update(Long id, Movie newMovie, MultipartFile image, BindingResult bindingResult) throws IOException {
 
         this.movieValidator.validate(newMovie, bindingResult);
+
+        // se non ci sono errori di campo salva i nuovi dati
         if (!bindingResult.hasFieldErrors()) {
+            Movie movie = this.movieRepository.findById(id).get();
             movie.setTitle(newMovie.getTitle());
             movie.setYear(newMovie.getYear());
-            // inserimento immagini
+
+            // se è cambiata anche l'immagine aggiornala
             try {
                 if (image.getBytes().length != 0) {
                     String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
                     movie.setImage(base64Image);
-                } else {
-                    movie.setImage(movie.getImage());
                 }
             } catch (IOException e) {
             }
+
             this.movieRepository.save(movie);
 
-        }
-        return movie;
+            return movie;
+        } else
+            throw new IOException();
     }
 
     @Transactional
@@ -103,9 +109,9 @@ public class movieServiceImpl implements MovieService {
     @Override
     public Movie setDirector(Long directorId, Long movieId) {
         Artist director = this.artistRepository.findById(directorId).get();
-		Movie movie = this.movieRepository.findById(movieId).get();
-		movie.setDirector(director);
-		this.movieRepository.save(movie);
+        Movie movie = this.movieRepository.findById(movieId).get();
+        movie.setDirector(director);
+        this.movieRepository.save(movie);
         return movie;
     }
 
@@ -131,10 +137,10 @@ public class movieServiceImpl implements MovieService {
     @Override
     public Movie removeActor(Long actorId, Long movieId) {
         Movie movie = this.movieRepository.findById(movieId).get();
-		Artist actor = this.artistRepository.findById(actorId).get();
-		Set<Artist> actors = movie.getActors();
-		actors.remove(actor);
-		this.movieRepository.save(movie);
+        Artist actor = this.artistRepository.findById(actorId).get();
+        Set<Artist> actors = movie.getActors();
+        actors.remove(actor);
+        this.movieRepository.save(movie);
 
         return movie;
     }
@@ -144,14 +150,12 @@ public class movieServiceImpl implements MovieService {
     public Movie addActor(Long actorId, Long movieId) {
 
         Movie movie = this.movieRepository.findById(movieId).get();
-		Artist actor = this.artistRepository.findById(actorId).get();
-		Set<Artist> actors = movie.getActors();
-		actors.add(actor);
-		this.movieRepository.save(movie);
+        Artist actor = this.artistRepository.findById(actorId).get();
+        Set<Artist> actors = movie.getActors();
+        actors.add(actor);
+        this.movieRepository.save(movie);
 
         return movie;
     }
-
-    
 
 }

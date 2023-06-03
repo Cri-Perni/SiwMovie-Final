@@ -4,16 +4,17 @@ import java.io.IOException;
 import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.controller.validator.ArtistValidator;
-import it.uniroma3.siw.interfacce.ArtistService;
+import it.uniroma3.siw.interFace.ArtistService;
 import it.uniroma3.siw.model.Artist;
 import it.uniroma3.siw.model.Movie;
 import it.uniroma3.siw.repository.ArtistRepository;
 import jakarta.transaction.Transactional;
-
+@Service
 public class ArtistServiceImpl implements ArtistService{
 
     @Autowired
@@ -23,18 +24,19 @@ public class ArtistServiceImpl implements ArtistService{
 
     @Transactional
     @Override
-    public Artist newArtist(Artist artist, MultipartFile image, BindingResult bindingResult) {
+    public Artist newArtist(Artist artist, MultipartFile image, BindingResult bindingResult) throws IOException{
+
         this.artistValidator.validate(artist, bindingResult);
 		if (!bindingResult.hasErrors()) {
 			try {
 				String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
 				artist.setImage(base64Image);
-			} catch (IOException e) {
-			}
+			} catch (IOException e) {}
 			this.artistRepository.save(artist);
-        }
+            return artist;
+        }else throw new IOException();
         
-        return artist;
+        
     }
 
     @Transactional
@@ -58,25 +60,27 @@ public class ArtistServiceImpl implements ArtistService{
 
     @Transactional
     @Override
-    public Artist update(Long id, Artist newArtist, MultipartFile image, BindingResult bindingResult) {
-        Artist artist = this.artistRepository.findById(id).get();
+    public Artist update(Long id, Artist newArtist, MultipartFile image, BindingResult bindingResult) throws IOException {
+        
 		this.artistValidator.validate(newArtist, bindingResult);
 		if (!bindingResult.hasFieldErrors()) {
+            Artist artist = this.artistRepository.findById(id).get();
 			artist.setName(newArtist.getName());
 			artist.setSurname(newArtist.getSurname());
 			artist.setDateOfBirth(newArtist.getDateOfBirth());
 			artist.setDateOfDeath(newArtist.getDateOfDeath());
 			// inserimento immagini
 			try {
-
+                if(image.getBytes().length != 0){
 				String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
-				artist.setImage(base64Image);
+				artist.setImage(base64Image);}
 			} catch (IOException e) {
 			}
 
 			this.artistRepository.save(artist);
-        }
-            return artist;
+             return artist;
+        }else throw new IOException();
+           
     }
 
     @Transactional

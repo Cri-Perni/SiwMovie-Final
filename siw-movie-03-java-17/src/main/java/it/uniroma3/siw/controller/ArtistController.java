@@ -1,7 +1,7 @@
 package it.uniroma3.siw.controller;
 
+
 import java.io.IOException;
-import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,20 +14,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import it.uniroma3.siw.controller.validator.ArtistValidator;
-import it.uniroma3.siw.interfacce.ArtistService;
+import it.uniroma3.siw.interFace.ArtistService;
 import it.uniroma3.siw.model.Artist;
-import it.uniroma3.siw.model.Movie;
-import it.uniroma3.siw.repository.ArtistRepository;
+
 import jakarta.validation.Valid;
 
 @Controller
 public class ArtistController {
 
-	@Autowired
-	private ArtistRepository artistRepository;
-	@Autowired
-	private ArtistValidator artistValidator;
+
 	@Autowired
 	private ArtistService artistService;
 
@@ -46,21 +41,10 @@ public class ArtistController {
 	public String newArtist(@Valid @ModelAttribute("artist") Artist artist,
 			@RequestParam("imageArtist") MultipartFile image, BindingResult bindingResult, Model model) {
 
-		/*this.artistValidator.validate(artist, bindingResult);
-		if (!bindingResult.hasErrors()) {
-			try {
-				String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
-				artist.setImage(base64Image);
-			} catch (IOException e) {
-			}
-			this.artistRepository.save(artist);*/
-		Artist newArtist = this.artistService.newArtist(artist, image, bindingResult);
-
-		if(newArtist != null){
-			model.addAttribute("artist", artist);
+		try{
+			model.addAttribute("artist", this.artistService.newArtist(artist, image, bindingResult));
 			return "artist.html";
-		} else {
-			// model.addAttribute("messaggioErrore", "Questo artista esiste già");
+		} catch (IOException e) {
 			return "admin/formNewArtist.html";
 		}
 	}
@@ -128,13 +112,12 @@ public class ArtistController {
 			}
 
 			this.artistRepository.save(artist);*/
-			Artist artist = this.artistService.update(id, newArtist, image, bindingResult);
 
 
-		if(artist != newArtist && artist!=null){
-			model.addAttribute("artist", artist);
+		try{
+			model.addAttribute("artist", this.artistService.update(id, newArtist, image, bindingResult));
 			return "/admin/formUpdateArtist.html";
-		} else {
+		} catch(IOException e) {
 			model.addAttribute("artist", this.artistService.findById(id));
 			return "/admin/updateArtist.html";
 		}

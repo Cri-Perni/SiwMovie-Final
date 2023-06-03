@@ -3,7 +3,7 @@
 
 <head>
 	<title>
-		New Review
+		Modify Review
 	</title>
 	<link rel="stylesheet" th:href="@{/css/style2.css}" />
 </head>
@@ -21,10 +21,10 @@
 		<div th:insert="~{/index.html :: headerUser}"> </div>
 	</div>
 
-	<h1>Add Review</h1>
+	<h1 style="color: #bbb; margin-left: 2%;">Modify Reviews</h1>
 	<div class="card-rw">
-		<h3 class="card-title-rw" th:text="${movie.title}+' ('+${movie.year}+')'">Add TitoloMOvie Review</h3>
-		<form class="form" th:action="@{'/addReview/'+${movie.id}}" th:object="${review}" method="POST">
+		<h3 class="card-title-rw" th:text="${review.movie.title}+' ('+${review.movie.year}+')'">Add Title Review</h3>
+		<form class="form" th:action="@{'/user/editReview/'+${review.id}}" th:object="${review}" method="POST">
 			<div th:if="${#fields.hasGlobalErrors()}">
 				<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
 			</div>
@@ -83,7 +83,8 @@
 				</div>
 
 			</div>
-			<button type="submit" class="btn btn-primary-rw">Invia</button>
+			<button type="submit" class="btn btn-primary-rw">Send</button>
+            <a th:href="'/user/userReviews/'+${userDetails.username}" class="btn btn-secondary">back</a>
 		</form>
 	</div>
 </body>

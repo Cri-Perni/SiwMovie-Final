@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<title>Film</title>
+	<title>Review</title>
 	<link rel="stylesheet" th:href="@{/css/style2.css}" />
 </head>
 
@@ -20,18 +20,41 @@
 	</div>
 
 	<h1>review</h1>
-	<div th:if="${review}">
-		<span th:text="${review.title}">Up!</span>
-		<span th:text="${review.bodyText}">2000</span>
-		<span th:text="${review.stars}"></span>
-	</div>
-	<div>
-		<a th:href="@{'/movie/'+${review.movie.id}}">Fine Visione</a>
-		<div th:if="${userDetails}">
-			<div th:if="${not userDetails.authorities.?[authority == 'ADMIN'].isEmpty()}">
-				<a th:href="@{'/admin/deleteReview/'+${review.movie.id}+'/'+${review.id}}">Elimina Review</a>
-			</div>
+	<div class="card-rw-all">
+		<h3 class="card-title-rw" th:text="${review.movie.title}+' ('+${review.movie.year}+')'">Add TitoloMOvie
+			Review</h3>
+		<h4 th:text="'User: '+${review.credentials.username}"></h4>
+		<div class="form-group-rw">
+			<h4 readonly type="text" class="form-control-rw-all" placeholder="Title" name="title"
+				th:text="'Title: '+${review.title}">
 		</div>
+		<div class="form-group-rw">
+			<textarea readonly class="form-control-rw body-text-rw" placeholder="BodyText" name="bodyText"
+				th:text="${review.bodyText}"></textarea>
+		</div>
+		<div>
+			<div class="rating" th:if="${review.stars}">
+				<label for="1" th:each="star : ${#numbers.sequence(1, review.stars)}">
+					<svg style="fill: #ffc73a; stroke: #ffc73a;stroke-opacity: 0; stroke-dasharray: 0;"
+						viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"
+							pathLength="360"></path>
+					</svg>
+				</label>
+				<div th:if="${userDetails}">
+					<a th:if="${not userDetails.authorities.?[authority == 'ADMIN'].isEmpty()}"
+						style="position: absolute; margin-left: 15%; text-decoration: none; color: #bbb;"
+						th:href="@{'/admin/deleteReview/'+${review.movie.id}+'/'+${review.id}}">
+						<h4>Delete</h4>
+					</a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div style="display: flex; justify-content: center;">
+		<a style="text-decoration: none;" th:href="@{'/movie/'+${review.movie.id}}"><button class="btn-primary">Fine Visione</button></a>
 	</div>
 	<div th:unless="${review}">Non esiste</div>
 </body>

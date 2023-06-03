@@ -1,6 +1,8 @@
 package it.uniroma3.siw.controller;
 
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-
-import it.uniroma3.siw.interfacce.MovieService;
+import it.uniroma3.siw.interFace.MovieService;
 import it.uniroma3.siw.model.Movie;
 import it.uniroma3.siw.repository.ArtistRepository;
 import it.uniroma3.siw.repository.MovieRepository;
@@ -77,27 +78,10 @@ public class MovieController {
 	public String newMovie(@Valid @ModelAttribute("movie") Movie movie, @RequestParam("imageMovie") MultipartFile image,
 			BindingResult bindingResult, Model model) {
 
-		/*this.movieValidator.validate(movie, bindingResult);
-		if (!bindingResult.hasErrors()) {
-			try {
-				String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
-				movie.setImage(base64Image);
-			} catch (IOException e) {
-			}
-			this.movieRepository.save(movie);
-			model.addAttribute("movie", movie);
+		try{
+            model.addAttribute("movie", movieService.newMovie(movie, image, bindingResult));
 			return "movie.html";
-		} else {
-			return "admin/formNewMovie.html";
-		}*/
-
-		Movie newMovie = this.movieService.newMovie(movie, image, bindingResult);
-
-		if (newMovie != null) {
-			// prova salvtaggio immagine
-			model.addAttribute("movie", movie);
-			return "movie.html";
-		} else {
+		} catch(IOException e) {
 			return "admin/formNewMovie.html";
 		}
 	}
@@ -140,12 +124,6 @@ public class MovieController {
 	@GetMapping(value = "/admin/addActorToMovie/{actorId}/{movieId}")
 	public String addActorToMovie(@PathVariable("actorId") Long actorId, @PathVariable("movieId") Long movieId,
 			Model model) {
-		/*Movie movie = this.movieRepository.findById(movieId).get();
-		Artist actor = this.artistRepository.findById(actorId).get();
-		Set<Artist> actors = movie.getActors();
-		actors.add(actor);
-		this.movieRepository.save(movie);*/
-
 
 		model.addAttribute("movie", this.movieService.addActor(actorId, movieId));
 		model.addAttribute("actorsToAdd", this.artistRepository.findActorsNotInMovie(movieId));
@@ -156,13 +134,6 @@ public class MovieController {
 	@GetMapping(value = "/admin/removeActorFromMovie/{actorId}/{movieId}")
 	public String removeActorFromMovie(@PathVariable("actorId") Long actorId, @PathVariable("movieId") Long movieId,
 			Model model) {
-		/*Movie movie = this.movieRepository.findById(movieId).get();
-		Artist actor = this.artistRepository.findById(actorId).get();
-		Set<Artist> actors = movie.getActors();
-		actors.remove(actor);
-		this.movieRepository.save(movie);*/
-
-		
 
 		model.addAttribute("movie", this.movieService.removeActor(actorId, movieId));
 		model.addAttribute("actorsToAdd", this.artistRepository.findActorsNotInMovie(movieId));
@@ -180,37 +151,10 @@ public class MovieController {
 	public String changeMovie(@PathVariable("movieId") Long id, @Valid @ModelAttribute Movie newMovie,
 			@RequestParam("imageMovie") MultipartFile image, BindingResult bindingResult, Model model) {
 
-		/*Movie movie = this.movieRepository.findById(id).get();
-
-		this.movieValidator.validate(newMovie, bindingResult);
-		if (!bindingResult.hasFieldErrors()) {
-			movie.setTitle(newMovie.getTitle());
-			movie.setYear(newMovie.getYear());
-			// inserimento immagini
-			try {
-				if (image.getBytes().length != 0) {
-					String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
-					movie.setImage(base64Image);
-				} else {
-					movie.setImage(movie.getImage());
-				}
-			} catch (IOException e) {
-			}
-			this.movieRepository.save(movie);
-			model.addAttribute("movie", movie);
+		try{
+            model.addAttribute("movie", this.movieService.update(id, newMovie, image, bindingResult));
 			return "/admin/formUpdateMovie.html";
-		} else {
-			model.addAttribute("movie", this.movieRepository.findById(id).get());
-			return "/admin/updateMovie.html";
-		}*/
-
-		Movie movie = this.movieService.update(id,  newMovie, image, bindingResult);
-
-		if (movie != newMovie && movie!=null) {
-
-			model.addAttribute("movie", movie);
-			return "/admin/formUpdateMovie.html";
-		} else {
+		} catch(IOException e) {
 			model.addAttribute("movie", this.movieService.findById(id));
 			return "/admin/updateMovie.html";
 		}
@@ -220,15 +164,7 @@ public class MovieController {
 	@GetMapping("/admin/removeMovie/{movieId}")
 	public String removeMovie(@PathVariable("movieId") Long id, Model model) {
 
-		/*Movie movie = this.movieRepository.findById(id).get();
-
-		for (Artist actor : movie.getActors()) {
-			actor.getActorOf().remove(movie);
-		}
-
-		this.movieRepository.delete(movie);*/
 		this.movieService.delete(id);
-
 		model.addAttribute("movies",this.movieService.findAll());
 		return "/admin/manageMovies.html";
 	}

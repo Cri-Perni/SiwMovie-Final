@@ -52,17 +52,14 @@ import javax.sql.DataSource;
                 .csrf().and().cors().disable()
                 .authorizeHttpRequests()
 //                .requestMatchers("/**").permitAll()
-                // chiunque (autenticato o no) può accedere alle pagine index, login, register, ai css e alle immagini
                 .requestMatchers(HttpMethod.GET,"/","/index","/register","/css/**", "/images/**", "favicon.ico").permitAll()
-        		// chiunque (autenticato o no) può mandare richieste POST al punto di accesso per login e register 
                 .requestMatchers(HttpMethod.POST,"/register", "/login").permitAll()
                 .requestMatchers(HttpMethod.GET,"/admin/**").hasAnyAuthority(ADMIN_ROLE)
                 .requestMatchers(HttpMethod.POST,"/admin/**").hasAnyAuthority(ADMIN_ROLE)
-                .requestMatchers(HttpMethod.GET,"/formNewReview").hasAnyAuthority(ADMIN_ROLE,DEFAULT_ROLE)
-                .requestMatchers(HttpMethod.POST,"/formNewReview").hasAnyAuthority(ADMIN_ROLE,DEFAULT_ROLE)
-        		// tutti gli utenti autenticati possono accere alle pagine rimanenti 
+                .requestMatchers(HttpMethod.GET,"/user/**").hasAnyAuthority(ADMIN_ROLE,DEFAULT_ROLE)
+                .requestMatchers(HttpMethod.POST,"/user/**").hasAnyAuthority(ADMIN_ROLE,DEFAULT_ROLE)
                 .anyRequest().permitAll()
-                // LOGIN: qui definiamo il login
+
                 .and().oauth2Login()
                 .loginPage("/login")
                 .and().formLogin()
@@ -70,12 +67,12 @@ import javax.sql.DataSource;
                 .permitAll()
                 .defaultSuccessUrl("/success", true)
                 .failureUrl("/login?error=true")
-                // LOGOUT: qui definiamo il logout
+
                 .and()
                 .logout()
-                // il logout è attivato con una richiesta GET a "/logout"
+
                 .logoutUrl("/logout")
-                // in caso di successo, si viene reindirizzati alla home
+
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")

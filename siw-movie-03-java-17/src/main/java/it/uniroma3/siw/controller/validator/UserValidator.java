@@ -21,10 +21,6 @@ public class UserValidator implements Validator {
 		if (user.getEmail() != null && userRepository.existsByEmail(user.getEmail())) {
 			errors.reject("user.duplicate");
 		}
-
-		 // Validazione specifica per le credenziali
-		 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "credentials.username", "NotBlank");
-		 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "credentials.password", "NotBlank");
 	}
 
 	@Override
