@@ -19,21 +19,14 @@
 		<div th:insert="~{/index.html :: headerUser}"> </div>
 	</div>
 
-	<div>
-		<a href="/"><img src="/images/logo-siw.png" width="50%"/></a>
+	<div class="div-r">
+		<div class="card-r">
+			<h1 class="card-title-r">You Registered</h1>
+			<p class="card-text-r" th:text="'Name: '+${user.name}">Prima riga di testo.</p>
+			<p class="card-text-r" th:text="'Surname: '+${user.surname}">Seconda riga di testo.</p>
+			<p class="card-text-r" th:text="'Email: '+${user.email}">Terza riga di testo.</p>
+		  </div>
 	</div>
-	<h1>Congratulazioni ti sei registrato!</h1>
-	<div>
-		<span>Nome: </span>
-		<span th:text="${user.name}"></span>
-	</div>
-	<div>
-		<span>Cognome: </span>
-		<span th:text="${user.surname}"></span>
-	</div>
-	<div>
-		<span>Email: </span>
-		<span th:text="${user.email}"></span>
-	</div>
+
 </body>
 </html>

@@ -10,11 +10,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import it.uniroma3.siw.interFace.MovieService;
-import it.uniroma3.siw.interFace.ReviewService;
-
 import it.uniroma3.siw.model.Review;
-
+import it.uniroma3.siw.service.MovieService;
+import it.uniroma3.siw.service.ReviewService;
 import jakarta.validation.Valid;
 
 
@@ -40,20 +38,6 @@ public class ReviewController {
     @PostMapping("/user/addReview/{id}")
 	public String newReview(@Valid @ModelAttribute("review") Review review, BindingResult bindingResult,
     @PathVariable("id") Long mId, Model model) {
-
-       /* Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-        UserDetails userDetails = (UserDetails) principal;
-        
-		
-        Movie movie = this.movieRepository.findById(mId).get();
-        review.setMovie(movie);
-        review.setCredentials(this.credentialsRepository.findByUsername(userDetails.getUsername()).get());
-		this.reviewValidator.validate(review, bindingResult);
-		if (!bindingResult.hasErrors()) {
-           // this.reviewRepository.save(review);
-            movie.getReviews().add(review);
-            this.movieRepository.save(movie); */
 
         Review newReview = this.reviewService.newReview(review, bindingResult, mId);
 

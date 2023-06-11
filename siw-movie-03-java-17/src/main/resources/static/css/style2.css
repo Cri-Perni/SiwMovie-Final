@@ -796,7 +796,7 @@ nav {
   border-radius: 5px;
 }
 
-.form-control:focus{
+.form-control:focus {
   outline: none;
   border-color: #ff0055;
   box-shadow: 0 0 5px #bbb;
@@ -812,7 +812,7 @@ nav {
   border-radius: 4px;
   cursor: pointer;
   margin-bottom: 1%;
-  
+
 }
 
 .btn-add:hover {
@@ -848,7 +848,7 @@ nav {
   border-radius: 4px;
 }
 
-.form-control-rw:focus{
+.form-control-rw:focus {
   outline: none;
   border-color: #ff0055;
   box-shadow: 0 0 5px #bbb;
@@ -905,6 +905,7 @@ nav {
   background-color: #ff0055;
   border: none;
 }
+
 .lg-button:hover {
   background-color: #d40047;
   border-color: #d40047;
@@ -944,37 +945,41 @@ nav {
   background-color: #204d74;
 }
 
-.card-lg{
+.card-lg {
   display: flex;
   width: 40%;
   height: 50%;
   background-color: #111;
   border-radius: 15px;
-  
+
 }
-.img-lg{
+
+.img-lg {
   width: 92%;
   height: 100%;
   background-image: url('https://aforismi.meglio.it/img/film/Zoolander.jpg');
   background-size: cover;
   border-radius: 15px 0px 0px 15px;
 }
-.form-in{
+
+.form-in {
   width: 100%;
   padding: 1%;
 }
 
-.form-input-lg{
-  
+.form-input-lg {
+
   display: flex;
   margin-bottom: 1%;
   justify-content: center;
 }
-.card-img-lg{
+
+.card-img-lg {
   height: 100%;
   width: 50%;
 }
-.form-lg{
+
+.form-lg {
   padding: 2%;
   width: 50%;
   display: flex;
@@ -1019,4 +1024,35 @@ nav {
 .h2-rg {
   text-align: center;
   color: white;
+}
+
+.card-r {
+  color: #bbb;
+  background-color: #111;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 30%;
+}
+
+.card-title-r {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.card-text-r {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.div-r {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
 }

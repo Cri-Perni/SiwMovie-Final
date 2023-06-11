@@ -9,8 +9,8 @@
 <body>
 	<div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
 
-	<h2 th:text="'Attori del film ' + ${movie.title}"></h2>
-	<div th:if="${movie.actors.isEmpty()}">Non ci sono attori per questo film</div>
+	<h2 th:text="'Movie actors: ' + ${movie.title}"></h2>
+	<div th:if="${movie.actors.isEmpty()}">There are no actors for this film</div>
 	<div class="row-actors">
 		<div th:each="actor : ${movie.actors}" class="grid-card">
 			<div class="card-img-container">
@@ -25,7 +25,7 @@
 		</div>
 	</div>
 	<div>
-		<h2>Attori che si possono aggiungere:</h2>
+		<h2>Actors that can be added:</h2>
 		<div class="row-actors">
 		<div th:each="actor : ${actorsToAdd}" class="grid-card">
 			<div class="card-img-container">

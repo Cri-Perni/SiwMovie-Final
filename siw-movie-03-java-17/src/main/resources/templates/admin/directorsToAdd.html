@@ -10,7 +10,7 @@
 	<div th:insert="~{/admin/indexAdmin.html :: headerAdmin}"> </div>
 
 	<h1 th:text="'Director for Movie '"></h1>
-	<div th:if="${artists.isEmpty()}">Non ci sono registi nel sistema</div>
+	<div th:if="${artists.isEmpty()}">There are no directors in the system</div>
 	<div class="row-actors">
 		<div th:each="artist : ${artists}" class="grid-card">
 			<div class="card-img-container">
