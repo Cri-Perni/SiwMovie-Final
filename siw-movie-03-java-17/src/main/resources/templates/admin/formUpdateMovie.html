@@ -58,15 +58,15 @@
 						<h3>Reviews</h3>
 						<h3 th:if="${userDetails}">
 							<a style="text-decoration: none; color: #bbb; font-size: 15px;"
-								th:href="@{'/formNewReview' + '/' + ${movie.id}}">Remove Review</a>
+								th:href="@{'/movieReviews' + '/' + ${movie.id}}">Remove Review</a>
 						</h3>
 					</div>
 					<div class="row-reviews">
 						<a class="a-btn-row" href="#">
 							<p th:each="review : ${movie.reviews}" class="reviews-line">
-								<span th:text="${review.title}">Title Review</span>
-								<span th:text="' '+${review.bodyText}"> BodyText:Bel Film</span>
-								<span th:text="'Voto: '+${review.stars}">Title Review</span>
+								<span th:text="'Title:'+${review.title}">Title Review</span>
+								<span th:text="'&nbsp;&nbsp;Review:'+${review.bodyText}"> BodyText:Review</span>
+								<span th:text="'&nbsp;&nbsp;Vote:'+${review.stars}">Title Review</span>
 							</p>
 						</a>
 					</div>

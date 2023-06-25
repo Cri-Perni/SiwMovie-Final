@@ -90,15 +90,6 @@ public class ReviewController {
     @PostMapping("user/editReview/{reviewId}")
 	public String editReview(@PathVariable("reviewId") Long id,@ModelAttribute Review newReview,  BindingResult bindingResult, Model model){
 
-		/*Review review=this.reviewRepository.findById(id).get();
-		
-		this.reviewValidator.validate(newReview, bindingResult);
-		if (!bindingResult.hasErrors()) {
-			review.setTitle(newReview.getTitle());
-			review.setBodyText(newReview.getBodyText());
-			review.setStars(newReview.getStars());
-			//inserimento immagini
-			this.reviewRepository.save(review);*/
         Review review = this.reviewService.editReview(id, newReview, bindingResult);
         if(review != null){
 			model.addAttribute("reviews", this.reviewService.findByCredentialsId(review.getCredentials().getId()));
@@ -109,9 +100,6 @@ public class ReviewController {
 		}
 
 	}
-    
-    
-
 
 
     

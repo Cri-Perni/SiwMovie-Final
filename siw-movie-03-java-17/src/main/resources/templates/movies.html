@@ -45,7 +45,7 @@
 				<h3>Reviews</h3>
 				<div class="row-reviews">
 					<div th:each="review : ${movie.reviews}">
-						<p class="reviews-line" th:text="'Titolo:'+${review.title}+'&nbsp;&nbsp;Recensione:'+${review.bodyText}+'&nbsp;&nbsp;Voto:'+${review.stars}">
+						<p class="reviews-line" th:text="'Title:'+${review.title}+'&nbsp;&nbsp;Review:'+${review.bodyText}+'&nbsp;&nbsp;Vote:'+${review.stars}">
 							Recensione
 						</p>
 				</div>

@@ -65,7 +65,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     @Override
     public Iterable<Review> findByMovieId(Long id) {
-        return this.findByMovieId(id);
+        return this.reviewRepository.findByMovieId(id);
     }
 
     @Transactional
